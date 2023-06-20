@@ -4,10 +4,10 @@
 
 ## 💻 프로젝트 참여자
 
-| [![](https://github.com/yjsmk0902.png?size=100)](https://github.com/yjsmk0902) | [![](https://github.com/yeon7485.png?size=100)](https://github.com/yeon7485) |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                      **Seungmin Yang**                       |                       **Seyeon Park**                        |
+| [![](https://github.com/yjsmk0902.png?size=100)](https://github.com/yjsmk0902) | [![](https://github.com/yeon7485.png?size=100)](https://github.com/yeon7485) | [![](https://github.com/H-Zoon.png?size=100)](https://github.com/H-Zoon) |
+| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------------: |
+|         **Seungmin Yang**                   |         **Seyeon Park**                        |        **H-Zoon**                        |
 
 ## 📅 프로젝트 기간
 
-> June 4, 2023 ~ August 29 2023 (예정)
+> June 4, 2023 ~ August 29, 2023 (예정)
