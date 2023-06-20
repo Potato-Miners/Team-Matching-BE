@@ -8,6 +8,10 @@
 | :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------------: |
 |         **Seungmin Yang**                   |         **Seyeon Park**                        |        **H-Zoon**                        |
 
+[Team Matching FE - Web](https://github.com/Potato-Miners/Team-Matching-FE-Web)
+
+[Team Matching FE - Android](https://github.com/Potato-Miners/Team-Matching-FE-Android)
+
 ## 📅 프로젝트 기간
 
 > June 4, 2023 ~ August 29, 2023 (예정)
