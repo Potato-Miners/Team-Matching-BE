@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(indexes = {
