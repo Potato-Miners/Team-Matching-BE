@@ -1,7 +1,7 @@
 package com.teammatching.demo.domain.dto;
 
 import com.teammatching.demo.domain.entity.Team;
-import com.teammatching.demo.domain.entity.TeamUser;
+import com.teammatching.demo.domain.entity.JoinTeam;
 import com.teammatching.demo.domain.entity.UserAccount;
 import lombok.Builder;
 
@@ -12,7 +12,7 @@ public record TeamUserDto(
         UserAccountDto userAccountDto
 ) {
 
-    public TeamUserDto from(TeamUser entity) {
+    public TeamUserDto from(JoinTeam entity) {
         return TeamUserDto.builder()
                 .id(entity.getId())
                 .teamId(entity.getTeam().getId())
@@ -20,8 +20,8 @@ public record TeamUserDto(
                 .build();
     }
 
-    public TeamUser toEntity(UserAccount userAccount, Team team) {
-        return TeamUser.builder()
+    public JoinTeam toEntity(UserAccount userAccount, Team team) {
+        return JoinTeam.builder()
                 .userAccount(userAccount)
                 .team(team)
                 .build();

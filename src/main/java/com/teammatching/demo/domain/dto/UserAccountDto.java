@@ -22,7 +22,6 @@ public record UserAccountDto(
 
     public static UserAccountDto from(UserAccount entity) {
         return UserAccountDto.builder()
-                .id(entity.getId())
                 .userId(entity.getUserId())
                 .userPassword(entity.getUserPassword())
                 .email(entity.getEmail())
