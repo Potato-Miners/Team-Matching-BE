@@ -8,11 +8,15 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
-public class TeamUser {
+public class JoinTeam {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Setter
+    @Column(nullable = false)
+    private boolean approval;
 
     @Setter
     @ManyToOne(optional = false)
@@ -23,7 +27,7 @@ public class TeamUser {
     private Team team;
 
     @Builder
-    private TeamUser(UserAccount userAccount, Team team) {
+    private JoinTeam(UserAccount userAccount, Team team) {
         this.userAccount = userAccount;
         this.team = team;
     }

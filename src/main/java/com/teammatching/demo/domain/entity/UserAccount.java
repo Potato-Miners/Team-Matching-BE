@@ -11,7 +11,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(indexes = {
-        @Index(columnList = "userId"),
         @Index(columnList = "email"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
@@ -20,10 +19,6 @@ import java.util.Set;
 public class UserAccount extends AuditingField {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Setter
     @Column(nullable = false, length = 50)
     private String userId;
 
@@ -54,7 +49,7 @@ public class UserAccount extends AuditingField {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
-    private final Set<TeamUser> teamUsers = new LinkedHashSet<>();
+    private final Set<JoinTeam> joinTeams = new LinkedHashSet<>();
 
     @Builder
     private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {

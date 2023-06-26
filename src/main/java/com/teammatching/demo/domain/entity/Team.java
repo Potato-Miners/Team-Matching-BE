@@ -40,7 +40,7 @@ public class Team extends AuditingField {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private final Set<TeamUser> teamUsers = new LinkedHashSet<>();
+    private final Set<JoinTeam> joinTeams = new LinkedHashSet<>();
 
     @Builder
     private Team(String name, String description, String hashtag, Long max) {
