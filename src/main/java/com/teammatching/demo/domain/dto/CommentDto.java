@@ -41,4 +41,28 @@ public record CommentDto(
                 .build();
     }
 
+    public record CreateRequest(
+            String content
+    ) {
+        public CommentDto toDto(Long postId, UserAccountDto userAccountDto) {
+            return CommentDto.builder()
+                    .content(content)
+                    .postId(postId)
+                    .userAccountDto(userAccountDto)
+                    .build();
+        }
+    }
+
+    public record UpdateRequest(
+            String content
+    ) {
+        public CommentDto toDto(Long postId, UserAccountDto userAccountDto) {
+            return CommentDto.builder()
+                    .content(content)
+                    .postId(postId)
+                    .userAccountDto(userAccountDto)
+                    .build();
+        }
+    }
+
 }

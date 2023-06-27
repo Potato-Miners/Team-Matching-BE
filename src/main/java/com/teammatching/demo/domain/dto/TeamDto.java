@@ -4,6 +4,9 @@ import com.teammatching.demo.domain.entity.Team;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 public record TeamDto(
@@ -11,7 +14,7 @@ public record TeamDto(
         String name,
         String description,
         String hashtag,
-        Long max,
+        Set<AdmissionDto> admissionDtos,
 
         LocalDateTime createdAt,
         String createdBy,
@@ -24,8 +27,12 @@ public record TeamDto(
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
+                .admissionDtos(
+                        entity.getAdmissions().stream()
+                                .map(AdmissionDto::from)
+                                .collect(Collectors.toCollection(LinkedHashSet::new))
+                )
                 .hashtag(entity.getHashtag())
-                .max(entity.getMax())
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
                 .modifiedAt(entity.getModifiedAt())
@@ -38,7 +45,48 @@ public record TeamDto(
                 .name(name)
                 .description(description)
                 .hashtag(hashtag)
-                .max(max)
                 .build();
+    }
+
+    public record SimpleResponse(
+            Long id,
+            String name,
+            String hashtag
+    ) {
+        public TeamDto toDto() {
+            return TeamDto.builder()
+                    .id(id)
+                    .name(name)
+                    .hashtag(hashtag)
+                    .build();
+        }
+    }
+
+    public record CreateRequest(
+            String name,
+            String description,
+            String hashtag
+    ) {
+        public TeamDto toDto() {
+            return TeamDto.builder()
+                    .name(name)
+                    .description(description)
+                    .hashtag(hashtag)
+                    .build();
+        }
+    }
+
+    public record UpdateRequest(
+            String name,
+            String description,
+            String hashtag
+    ) {
+        public TeamDto toDto() {
+            return TeamDto.builder()
+                    .name(name)
+                    .description(description)
+                    .hashtag(hashtag)
+                    .build();
+        }
     }
 }
