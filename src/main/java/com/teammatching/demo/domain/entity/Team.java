@@ -24,6 +24,10 @@ public class Team extends AuditingField {
 
     @Setter
     @Column(nullable = false)
+    private String adminId;
+
+    @Setter
+    @Column(nullable = false)
     private String name;
 
     @Setter
@@ -34,19 +38,14 @@ public class Team extends AuditingField {
     @Column(nullable = false)
     private String hashtag;
 
-    @Setter
-    @Column(nullable = false)
-    private Long max;
-
     @ToString.Exclude
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private final Set<JoinTeam> joinTeams = new LinkedHashSet<>();
+    private final Set<Admission> admissions = new LinkedHashSet<>();
 
     @Builder
     private Team(String name, String description, String hashtag, Long max) {
         this.name = name;
         this.description = description;
         this.hashtag = hashtag;
-        this.max = max;
     }
 }
