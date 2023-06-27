@@ -67,8 +67,7 @@ public record PostDto(
     public record CreateRequest(
             String title,
             String content,
-            String hashtag,
-            UserAccountDto userAccountDto
+            String hashtag
     ) {
         public PostDto toDto(UserAccountDto userAccountDto) {
             return PostDto.builder()
@@ -83,8 +82,7 @@ public record PostDto(
     public record UpdateRequest(
             String title,
             String content,
-            String hashtag,
-            UserAccountDto userAccountDto
+            String hashtag
     ) {
         public PostDto toDto(UserAccountDto userAccountDto) {
             return PostDto.builder()
