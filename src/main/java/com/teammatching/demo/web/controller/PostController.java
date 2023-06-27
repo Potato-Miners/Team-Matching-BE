@@ -8,7 +8,6 @@ import com.teammatching.demo.web.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,22 +43,6 @@ public class PostController {
     }
 
     @Operation(
-            summary = "게시글 쓰기",
-            description = "추가할 게시글 정보를 받아 게시글을 작성합니다."
-    )
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping
-    public ResponseResult<Objects> createPost(
-            @RequestBody PostDto.CreateRequest request
-    ) {
-        postService.createPost(request.toDto(UserAccountDto.builder().build()));        //TODO: 인증 정보 필요
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
-                .build();
-    }
-
-    @Operation(
             summary = "게시글 상세 조회",
             description = "단일 게시글에 대한 상세 정보를 제공합니다."
     )
@@ -72,6 +55,22 @@ public class PostController {
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
                 .resultData(postService.getPostById(postId))
+                .build();
+    }
+
+    @Operation(
+            summary = "게시글 쓰기",
+            description = "추가할 게시글 정보를 받아 게시글을 작성합니다."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping
+    public ResponseResult<Objects> createPost(
+            @RequestBody PostDto.CreateRequest request
+    ) {
+        postService.createPost(request.toDto(UserAccountDto.builder().build()));        //TODO: 인증 정보 필요
+        return ResponseResult.<Objects>builder()
+                .statusCode(HttpStatus.OK)
+                .resultMessage(ResponseMessage.SUCCESS)
                 .build();
     }
 
@@ -94,7 +93,7 @@ public class PostController {
 
     @Operation(
             summary = "게시글 삭제",
-            description = "삭제할 게시글의 ID를 받아 게시글을 삭제합니다."
+            description = "삭제할 게시글의 ID를 받아 해당 게시글을 삭제합니다."
     )
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{postId}")
@@ -107,6 +106,4 @@ public class PostController {
                 .resultMessage(ResponseMessage.SUCCESS)
                 .build();
     }
-
-
 }

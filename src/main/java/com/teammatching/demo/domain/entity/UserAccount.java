@@ -49,7 +49,7 @@ public class UserAccount extends AuditingField {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
-    private final Set<JoinTeam> joinTeams = new LinkedHashSet<>();
+    private final Set<Admission> admissions = new LinkedHashSet<>();
 
     @Builder
     private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
