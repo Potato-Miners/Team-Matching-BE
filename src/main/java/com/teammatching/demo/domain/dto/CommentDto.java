@@ -65,4 +65,19 @@ public record CommentDto(
         }
     }
 
+    @Builder
+    public record SimpleResponse(
+            Long id,
+            String content,
+            Long postId
+    ) {
+        public static SimpleResponse from(CommentDto dto) {
+            return SimpleResponse.builder()
+                    .id(dto.id)
+                    .content(dto.content)
+                    .postId(dto.postId())
+                    .build();
+        }
+    }
+
 }

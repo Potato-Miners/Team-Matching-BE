@@ -47,12 +47,20 @@ public record TeamDto(
                 .hashtag(hashtag)
                 .build();
     }
-
+    @Builder
     public record SimpleResponse(
             Long id,
             String name,
             String hashtag
     ) {
+        public static SimpleResponse from(TeamDto dto) {
+            return SimpleResponse.builder()
+                    .id(dto.id)
+                    .name(dto.name)
+                    .hashtag(dto.hashtag)
+                    .build();
+        }
+
         public TeamDto toDto() {
             return TeamDto.builder()
                     .id(id)
