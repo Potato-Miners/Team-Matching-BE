@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TeamService {
-    public TeamDto.SimpleResponse getSimpleTeams() {
+    public TeamDto getSimpleTeams() {
         return null;
     }
 

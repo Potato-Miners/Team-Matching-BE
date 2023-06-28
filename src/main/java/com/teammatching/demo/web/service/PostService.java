@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PostService {
-    public Page<PostDto.SimpleResponse> getSimplePosts() {
+    public Page<PostDto> getSimplePosts() {
         return null;        //TODO: 비즈니스 로직 구현 필요
     }
 

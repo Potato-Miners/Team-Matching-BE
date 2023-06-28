@@ -66,4 +66,18 @@ public record UserAccountDto(
     ) {
     }
 
+    public record UpdateRequest(
+            String email,
+            String nickname,
+            String memo
+    ) {
+        public UserAccountDto toDto() {
+            return UserAccountDto.builder()
+                    .email(email)
+                    .nickname(nickname)
+                    .memo(memo)
+                    .build();
+        }
+    }
+
 }

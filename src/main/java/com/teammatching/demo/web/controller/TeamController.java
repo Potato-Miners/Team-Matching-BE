@@ -36,7 +36,7 @@ public class TeamController {
         return ResponseResult.<TeamDto.SimpleResponse>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(teamService.getSimpleTeams())
+                .resultData(TeamDto.SimpleResponse.from(teamService.getSimpleTeams()))
                 .build();
     }
 

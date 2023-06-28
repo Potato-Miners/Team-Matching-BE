@@ -33,12 +33,15 @@ public record AdmissionDto(
                 .build();
     }
 
-    public record ApplyRequest(
-            String application
+    @Builder
+    public record SimpleResponse(
+            Long id,
+            String userId
     ) {
-        public AdmissionDto toDto() {
-            return AdmissionDto.builder()
-                    .application(application)
+        public static SimpleResponse from(AdmissionDto dto) {
+            return SimpleResponse.builder()
+                    .id(dto.id)
+                    .userId(dto.userAccountDto().userId())
                     .build();
         }
     }
