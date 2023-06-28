@@ -38,7 +38,7 @@ public class PostController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(postService.getSimplePosts())
+                .resultData(postService.getSimplePosts().map(PostDto.SimpleResponse::from))
                 .build();
     }
 
