@@ -1,6 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.PostDto;
+import com.teammatching.demo.domain.dto.PostWithCommentDto;
 import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
@@ -43,15 +44,15 @@ public class PostController {
     }
 
     @Operation(
-            summary = "게시글 상세 조회",
-            description = "단일 게시글에 대한 상세 정보를 제공합니다."
+            summary = "게시글 상세 조회(댓글도 함께)",
+            description = "단일 게시글에 대한 상세 정보를 댓글과 함께 제공합니다."
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{postId}")
-    public ResponseResult<PostDto> getPostById(
+    public ResponseResult<PostWithCommentDto> getPostById(
             @PathVariable("postId") Long postId
     ) {
-        return ResponseResult.<PostDto>builder()
+        return ResponseResult.<PostWithCommentDto>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
                 .resultData(postService.getPostById(postId))
