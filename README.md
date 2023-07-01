@@ -4,9 +4,9 @@
 
 ## 💻 프로젝트 참여자
 
-| [![](https://github.com/yjsmk0902.png?size=100)](https://github.com/yjsmk0902) | [![](https://github.com/yeon7485.png?size=100)](https://github.com/yeon7485) | [![](https://github.com/H-Zoon.png?size=100)](https://github.com/H-Zoon) |
-| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------------: |
-|         **Seungmin Yang**                   |         **Seyeon Park**                        |        **H-Zoon**                        |
+| [![](https://github.com/yjsmk0902.png?size=100)](https://github.com/yjsmk0902) | [![](https://github.com/yeon7485.png?size=100)](https://github.com/yeon7485) | [![](https://github.com/H-Zoon.png?size=100)](https://github.com/H-Zoon) | [![](https://github.com/seriokim.png?size=100)](https://github.com/seriokim) |
+| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------------: | :--------------------------------------------: |
+|         **Seungmin Yang**                   |         **Seyeon Park**                        |        **H-Zoon**                        |        **Seongyun Kim**                        |
 
 [Team Matching FE - Web](https://github.com/Potato-Miners/Team-Matching-FE-Web)
 
