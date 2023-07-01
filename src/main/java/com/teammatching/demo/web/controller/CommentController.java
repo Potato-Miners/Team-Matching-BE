@@ -66,7 +66,7 @@ public class CommentController {
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId
     ) {
-        commentService.deleteComment(commentId, postId, UserAccountDto.builder().build());      //TODO: 인증 정보 필요
+        commentService.deleteComment(commentId, postId, UserAccountDto.builder().build().userId());      //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
