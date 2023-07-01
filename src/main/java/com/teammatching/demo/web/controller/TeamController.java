@@ -8,6 +8,7 @@ import com.teammatching.demo.web.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -30,13 +31,13 @@ public class TeamController {
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public ResponseResult<TeamDto.SimpleResponse> getSimpleTeams(
+    public ResponseResult<Page<TeamDto.SimpleResponse>> getSimpleTeams(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return ResponseResult.<TeamDto.SimpleResponse>builder()
+        return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(TeamDto.SimpleResponse.from(teamService.getSimpleTeams()))
+                .resultData(teamService.getSimpleTeams(pageable).map(TeamDto.SimpleResponse::from))
                 .build();
     }
 
@@ -65,7 +66,7 @@ public class TeamController {
     public ResponseResult<Objects> createTeam(
             @RequestBody TeamDto.CreateRequest request
     ) {
-        teamService.createTeam(request.toDto(), UserAccountDto.builder().build());      //TODO: 인증 정보 필요
+        teamService.createTeam(request.toDto(), UserAccountDto.builder().build().userId());      //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -82,7 +83,7 @@ public class TeamController {
             @PathVariable("teamId") Long teamId,
             @RequestBody TeamDto.UpdateRequest request
     ) {
-        teamService.updateTeam(teamId, request.toDto(), UserAccountDto.builder().build());  //TODO: 인증 정보 필요
+        teamService.updateTeam(teamId, request.toDto(), UserAccountDto.builder().build().userId());  //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -98,7 +99,7 @@ public class TeamController {
     public ResponseResult<Objects> deleteTeam(
             @PathVariable("teamId") Long teamId
     ) {
-        teamService.deleteTeam(teamId, UserAccountDto.builder().build());       //TODO: 인증 정보 필요
+        teamService.deleteTeam(teamId, UserAccountDto.builder().build().userId());       //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)

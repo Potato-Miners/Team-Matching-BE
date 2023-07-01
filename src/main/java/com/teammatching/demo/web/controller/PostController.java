@@ -39,7 +39,7 @@ public class PostController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(postService.getSimplePosts().map(PostDto.SimpleResponse::from))
+                .resultData(postService.getSimplePosts(pageable).map(PostDto.SimpleResponse::from))
                 .build();
     }
 
@@ -101,7 +101,7 @@ public class PostController {
     public ResponseResult<Objects> deletePost(
             @PathVariable("postId") Long postId
     ) {
-        postService.deletePost(postId, UserAccountDto.builder().build());       //TODO: 인증 정보 필요
+        postService.deletePost(postId, UserAccountDto.builder().build().userId());       //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)

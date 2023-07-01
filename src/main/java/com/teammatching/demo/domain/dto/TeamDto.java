@@ -2,6 +2,7 @@ package com.teammatching.demo.domain.dto;
 
 import com.teammatching.demo.domain.Category;
 import com.teammatching.demo.domain.entity.Team;
+import com.teammatching.demo.domain.entity.UserAccount;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -43,9 +44,9 @@ public record TeamDto(
                 .build();
     }
 
-    public Team toEntity() {
+    public Team toEntity(UserAccount userAccount) {
         return Team.builder()
-                .adminId(adminId)
+                .adminId(userAccount.getUserId())
                 .name(name)
                 .description(description)
                 .category(category)
@@ -55,6 +56,7 @@ public record TeamDto(
                 .deadline(deadline)
                 .build();
     }
+
     @Builder
     public record SimpleResponse(
             Long id,
@@ -75,16 +77,6 @@ public record TeamDto(
                     .build();
         }
 
-        public TeamDto toDto() {
-            return TeamDto.builder()
-                    .id(id)
-                    .adminId(adminId)
-                    .name(name)
-                    .category(category)
-                    .hashtag(hashtag)
-                    .deadline(deadline)
-                    .build();
-        }
     }
 
     public record CreateRequest(
