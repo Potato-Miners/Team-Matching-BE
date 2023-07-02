@@ -38,9 +38,8 @@ public class PostService {
     }
 
     public void updatePost(Long postId, PostDto request) {
-        UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new); //TODO: 예외 처리 구현 필요
-        if (post.getUserAccount().equals(userAccount)) {
+        if (post.getUserAccount().getUserId().equals(request.userAccountDto().userId())) {
             if (request.title() != null) {
                 post.setTitle(request.title());
             }

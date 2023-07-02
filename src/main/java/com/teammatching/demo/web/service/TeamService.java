@@ -35,10 +35,8 @@ public class TeamService {
     }
 
     public void updateTeam(Long teamId, TeamDto request, String userId) {
-        UserAccount userAccount = userAccountRepository.getReferenceById(userId);
-        UserAccount requestAccount = userAccountRepository.getReferenceById(request.adminId());
         Team team = teamRepository.findById(teamId).orElseThrow(RuntimeException::new);     //TODO: 예외 처리 구현 필요
-        if (requestAccount.equals(userAccount)) {
+        if (request.adminId().equals(userId)) {
             if (request.name() != null) {
                 team.setName(request.name());
             }
