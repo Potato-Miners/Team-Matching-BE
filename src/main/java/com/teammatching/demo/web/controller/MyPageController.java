@@ -42,6 +42,10 @@ public class MyPageController {
                 .build();
     }
 
+    @Operation(
+            summary = "마이페이지 수정",
+            description = "요청받은 유저의 정보를 수정합니다."
+    )
     @PatchMapping
     public ResponseResult<Objects> updateAccount(
             @PathVariable("userId") String userId,
@@ -54,6 +58,10 @@ public class MyPageController {
                 .build();
     }
 
+    @Operation(
+            summary = "마이페이지 게시글 조회",
+            description = "유저가 작성한 게시글 리스트를 제공합니다."
+    )
     @GetMapping("/posts")
     public ResponseResult<Page<PostDto.SimpleResponse>> getMyPosts(
             @PathVariable("userId") String userId,
@@ -67,6 +75,10 @@ public class MyPageController {
                 .build();
     }
 
+    @Operation(
+            summary = "마이페이지 댓글 조회",
+            description = "유저가 작성한 댓글 리스트를 제공합니다."
+    )
     @GetMapping("/comments")
     public ResponseResult<Page<CommentDto.SimpleResponse>> getMyComments(
             @PathVariable("userId") String userId,
@@ -80,6 +92,10 @@ public class MyPageController {
                 .build();
     }
 
+    @Operation(
+            summary = "마이페이지 팀 조회",
+            description = "유저가 작성한 팀 리스트를 제공합니다."
+    )
     @GetMapping("/teams")
     public ResponseResult<Page<TeamDto.SimpleResponse>> getMyTeams(
             @PathVariable("userId") String userId,
