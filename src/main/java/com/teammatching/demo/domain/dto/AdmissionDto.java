@@ -5,13 +5,20 @@ import com.teammatching.demo.domain.entity.Admission;
 import com.teammatching.demo.domain.entity.UserAccount;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Builder
 public record AdmissionDto(
         Long id,
         String application,
         Boolean approval,
         Long teamId,
-        UserAccountDto userAccountDto
+        UserAccountDto userAccountDto,
+
+        LocalDateTime createdAt,
+        String createdBy,
+        LocalDateTime modifiedAt,
+        String modifiedBy
 ) {
 
     public static AdmissionDto from(Admission entity) {
@@ -42,6 +49,19 @@ public record AdmissionDto(
             return SimpleResponse.builder()
                     .id(dto.id)
                     .userId(dto.userAccountDto().userId())
+                    .build();
+        }
+    }
+
+    public record CreateRequest(
+            String application
+    ) {
+        public AdmissionDto toDto(Long teamId, UserAccountDto userAccountDto) {
+            return AdmissionDto.builder()
+                    .application(application)
+                    .approval(false)
+                    .teamId(teamId)
+                    .userAccountDto(userAccountDto)
                     .build();
         }
     }

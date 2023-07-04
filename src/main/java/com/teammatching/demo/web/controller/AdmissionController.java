@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +33,13 @@ public class AdmissionController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseResult<Page<AdmissionDto.SimpleResponse>> getSimpleAdmission(
-            @PathVariable("teamId") Long teamId
+            @PathVariable("teamId") Long teamId,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(admissionService.getSimpleAdmission(teamId, UserAccountDto.builder().build())
+                .resultData(admissionService.getSimpleAdmission(teamId, UserAccountDto.builder().build().userId(), pageable)
                         .map(AdmissionDto.SimpleResponse::from))  //TODO: 인증 정보 필요
                 .build();
     }
@@ -53,7 +57,7 @@ public class AdmissionController {
         return ResponseResult.<AdmissionDto>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(admissionService.getAdmissionByUserId(teamId, userId, UserAccountDto.builder().build()))    //TODO: 인증 정보 필요
+                .resultData(admissionService.getAdmissionByUserId(teamId, userId, UserAccountDto.builder().build().userId()))    //TODO: 인증 정보 필요
                 .build();
     }
 
@@ -65,9 +69,9 @@ public class AdmissionController {
     @PostMapping
     public ResponseResult<Objects> applyTeam(
             @PathVariable("teamId") Long teamId,
-            @RequestBody String application
+            @RequestBody AdmissionDto.CreateRequest request
     ) {
-        admissionService.applyTeam(teamId, application, UserAccountDto.builder().build());  //TODO: 인증 정보 필요
+        admissionService.applyTeam(request.toDto(teamId, UserAccountDto.builder().build()));  //TODO: 인증 정보 필요
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
