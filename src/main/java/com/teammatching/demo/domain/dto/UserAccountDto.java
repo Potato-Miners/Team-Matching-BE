@@ -13,6 +13,8 @@ public record UserAccountDto(
         String email,
         String nickname,
         String memo,
+        RoleType role,
+        String refreshToken,
 
         LocalDateTime createdAt,
         String createdBy,
@@ -27,6 +29,8 @@ public record UserAccountDto(
                 .email(entity.getEmail())
                 .nickname(entity.getNickname())
                 .memo(entity.getMemo())
+                .role(entity.getRole())
+                .refreshToken(entity.getRefreshToken())
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
                 .modifiedAt(entity.getModifiedAt())
@@ -41,6 +45,8 @@ public record UserAccountDto(
                 .email(email)
                 .nickname(nickname)
                 .memo(memo)
+                .role(role)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -56,6 +62,7 @@ public record UserAccountDto(
                     .userPassword(userPassword)
                     .email(email)
                     .nickname(nickname)
+                    .role(RoleType.USER)
                     .build();
         }
     }
