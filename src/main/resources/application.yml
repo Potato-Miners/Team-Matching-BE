@@ -12,6 +12,8 @@ logging:
     org.hibernate.type.descriptor.sql: trace
 
 spring:
+  profiles:
+    include: jwt
   datasource:
     url: jdbc:mysql://localhost:3306/teamMatching
     username: root
