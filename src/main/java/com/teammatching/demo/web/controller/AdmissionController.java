@@ -2,7 +2,7 @@ package com.teammatching.demo.web.controller;
 
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.AdmissionService;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -34,13 +35,14 @@ public class AdmissionController {
     @GetMapping
     public ResponseResult<Page<AdmissionDto.SimpleResponse>> getSimpleAdmission(
             @PathVariable("teamId") Long teamId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(admissionService.getSimpleAdmission(teamId, UserAccountDto.builder().build().userId(), pageable)
-                        .map(AdmissionDto.SimpleResponse::from))  //TODO: 인증 정보 필요
+                .resultData(admissionService.getSimpleAdmission(teamId, principal.userId(), pageable)
+                        .map(AdmissionDto.SimpleResponse::from))
                 .build();
     }
 
@@ -52,12 +54,13 @@ public class AdmissionController {
     @GetMapping("/{userId}")
     public ResponseResult<AdmissionDto> getAdmissionByUserId(
             @PathVariable("teamId") Long teamId,
-            @PathVariable("userId") String userId
+            @PathVariable("userId") String userId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         return ResponseResult.<AdmissionDto>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(admissionService.getAdmissionByUserId(teamId, userId, UserAccountDto.builder().build().userId()))    //TODO: 인증 정보 필요
+                .resultData(admissionService.getAdmissionByUserId(teamId, userId, principal.userId()))
                 .build();
     }
 
@@ -69,9 +72,10 @@ public class AdmissionController {
     @PostMapping
     public ResponseResult<Objects> applyTeam(
             @PathVariable("teamId") Long teamId,
-            @RequestBody AdmissionDto.CreateRequest request
+            @RequestBody AdmissionDto.CreateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        admissionService.applyTeam(request.toDto(teamId, UserAccountDto.builder().build()));  //TODO: 인증 정보 필요
+        admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)

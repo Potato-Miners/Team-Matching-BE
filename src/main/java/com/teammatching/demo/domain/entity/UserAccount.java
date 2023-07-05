@@ -1,7 +1,9 @@
 package com.teammatching.demo.domain.entity;
 
 import com.teammatching.demo.domain.AuditingField;
+import com.teammatching.demo.domain.dto.RoleType;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -37,6 +39,13 @@ public class UserAccount extends AuditingField {
     @Setter
     private String memo;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
+    @Setter
+    private String refreshToken;
+
     @OrderBy("createdAt DESC")
     @ToString.Exclude
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
@@ -52,11 +61,22 @@ public class UserAccount extends AuditingField {
     private final Set<Admission> admissions = new LinkedHashSet<>();
 
     @Builder
-    private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
+    private UserAccount(String userId, String userPassword, String email, String nickname, String memo, RoleType role, String refreshToken) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+        this.role = role;
+        this.refreshToken = refreshToken;
+    }
+
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.userPassword = passwordEncoder.encode(this.userPassword);
+    }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+
     }
 }

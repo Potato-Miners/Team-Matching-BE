@@ -45,12 +45,14 @@ public class AdmissionService {
     public void applyTeam(AdmissionDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Team team = teamRepository.getReferenceById(request.teamId());
-        if (admissionRepository.findByUserAccountAndTeam(userAccount, team)) {
+        if (admissionRepository.findByUserAccountAndTeam(userAccount, team).isPresent()) {
             throw new RuntimeException("이미 가입신청된 팀입니다.");
-        } else if (team.getAdminId().equals(userAccount.getUserId())) {
-            throw new RuntimeException("이미 가입된 팀입니다.");
-        } else {
-            admissionRepository.save(request.toEntity(userAccount, team));
         }
+
+        if (team.getAdminId().equals(userAccount.getUserId())) {
+            throw new RuntimeException("이미 가입된 팀입니다.");
+        }
+
+        admissionRepository.save(request.toEntity(userAccount, team));
     }
 }

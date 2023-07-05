@@ -2,7 +2,7 @@ package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.PostDto;
 import com.teammatching.demo.domain.dto.PostWithCommentDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.PostService;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -66,9 +67,10 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
     public ResponseResult<Objects> createPost(
-            @RequestBody PostDto.CreateRequest request
+            @RequestBody PostDto.CreateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        postService.createPost(request.toDto(UserAccountDto.builder().build()));        //TODO: 인증 정보 필요
+        postService.createPost(request.toDto(principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -83,9 +85,10 @@ public class PostController {
     @PatchMapping("/{postId}")
     public ResponseResult<Objects> updatePost(
             @PathVariable("postId") Long postId,
-            @RequestBody PostDto.UpdateRequest request
+            @RequestBody PostDto.UpdateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        postService.updatePost(postId, request.toDto(UserAccountDto.builder().build()));        //TODO: 인증 정보 필요
+        postService.updatePost(postId, request.toDto(principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -99,9 +102,10 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{postId}")
     public ResponseResult<Objects> deletePost(
-            @PathVariable("postId") Long postId
+            @PathVariable("postId") Long postId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        postService.deletePost(postId, UserAccountDto.builder().build().userId());       //TODO: 인증 정보 필요
+        postService.deletePost(postId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)

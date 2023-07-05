@@ -1,7 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.TeamDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.TeamService;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -64,9 +65,10 @@ public class TeamController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
     public ResponseResult<Objects> createTeam(
-            @RequestBody TeamDto.CreateRequest request
+            @RequestBody TeamDto.CreateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        teamService.createTeam(request.toDto(), UserAccountDto.builder().build().userId());      //TODO: 인증 정보 필요
+        teamService.createTeam(request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -81,9 +83,10 @@ public class TeamController {
     @PatchMapping("/{teamId}")
     public ResponseResult<Objects> updateTeam(
             @PathVariable("teamId") Long teamId,
-            @RequestBody TeamDto.UpdateRequest request
+            @RequestBody TeamDto.UpdateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        teamService.updateTeam(teamId, request.toDto(), UserAccountDto.builder().build().userId());  //TODO: 인증 정보 필요
+        teamService.updateTeam(teamId, request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -97,9 +100,10 @@ public class TeamController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{teamId}")
     public ResponseResult<Objects> deleteTeam(
-            @PathVariable("teamId") Long teamId
+            @PathVariable("teamId") Long teamId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        teamService.deleteTeam(teamId, UserAccountDto.builder().build().userId());       //TODO: 인증 정보 필요
+        teamService.deleteTeam(teamId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
