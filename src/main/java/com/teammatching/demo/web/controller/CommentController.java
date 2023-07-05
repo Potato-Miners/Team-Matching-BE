@@ -1,7 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.CommentDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.CommentService;
@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -29,9 +30,10 @@ public class CommentController {
     @PostMapping
     public ResponseResult<Objects> createComment(
             @PathVariable("postId") Long postId,
-            @RequestBody CommentDto.CreateRequest request
+            @RequestBody CommentDto.CreateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        commentService.createComment(request.toDto(postId, UserAccountDto.builder().build()));      //TODO: 인증 정보 필요
+        commentService.createComment(request.toDto(postId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -47,9 +49,10 @@ public class CommentController {
     public ResponseResult<Objects> updateComment(
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
-            @RequestBody CommentDto.UpdateRequest request
+            @RequestBody CommentDto.UpdateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        commentService.updateComment(commentId, request.toDto(postId, UserAccountDto.builder().build()));      //TODO: 인증 정보 필요
+        commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -64,9 +67,10 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public ResponseResult<Objects> deleteComment(
             @PathVariable("postId") Long postId,
-            @PathVariable("commentId") Long commentId
+            @PathVariable("commentId") Long commentId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        commentService.deleteComment(commentId, postId, UserAccountDto.builder().build().userId());      //TODO: 인증 정보 필요
+        commentService.deleteComment(commentId, postId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)

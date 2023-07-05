@@ -1,9 +1,6 @@
 package com.teammatching.demo.web.controller;
 
-import com.teammatching.demo.domain.dto.CommentDto;
-import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.TeamDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.*;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.MyPageService;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -33,12 +31,13 @@ public class MyPageController {
     )
     @GetMapping
     public ResponseResult<UserAccountDto> getMyPage(
-            @PathVariable("userId") String userId
+            @PathVariable("userId") String userId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         return ResponseResult.<UserAccountDto>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(myPageService.getMyPage(userId, UserAccountDto.builder().build().userId()))      //TODO: 인증 정보 필요
+                .resultData(myPageService.getMyPage(userId, principal.userId()))
                 .build();
     }
 
@@ -49,9 +48,10 @@ public class MyPageController {
     @PatchMapping
     public ResponseResult<Objects> updateAccount(
             @PathVariable("userId") String userId,
-            @RequestBody UserAccountDto.UpdateRequest request
+            @RequestBody UserAccountDto.UpdateRequest request,
+            @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
-        myPageService.updateAccount(userId, request.toDto(), UserAccountDto.builder().build().userId());     //TODO: 인증 정보 필요
+        myPageService.updateAccount(userId, request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
@@ -65,13 +65,14 @@ public class MyPageController {
     @GetMapping("/posts")
     public ResponseResult<Page<PostDto.SimpleResponse>> getMyPosts(
             @PathVariable("userId") String userId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(myPageService.getMyPosts(userId, UserAccountDto.builder().build().userId(), pageable)
-                        .map(PostDto.SimpleResponse::from))     //TODO: 인증 정보 필요
+                .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable)
+                        .map(PostDto.SimpleResponse::from))
                 .build();
     }
 
@@ -82,13 +83,14 @@ public class MyPageController {
     @GetMapping("/comments")
     public ResponseResult<Page<CommentDto.SimpleResponse>> getMyComments(
             @PathVariable("userId") String userId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(myPageService.getMyComments(userId, UserAccountDto.builder().build().userId(), pageable)
-                        .map(CommentDto.SimpleResponse::from))  //TODO: 인증 정보 필요
+                .resultData(myPageService.getMyComments(userId, principal.userId(), pageable)
+                        .map(CommentDto.SimpleResponse::from))
                 .build();
     }
 
@@ -99,13 +101,14 @@ public class MyPageController {
     @GetMapping("/teams")
     public ResponseResult<Page<TeamDto.SimpleResponse>> getMyTeams(
             @PathVariable("userId") String userId,
+            @AuthenticationPrincipal TeamMatchPrincipal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMessage(ResponseMessage.SUCCESS)
-                .resultData(myPageService.getMyTeams(userId, UserAccountDto.builder().build().userId(), pageable)
-                        .map(TeamDto.SimpleResponse::from))     //TODO: 인증 정보 필요
+                .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
+                        .map(TeamDto.SimpleResponse::from))
                 .build();
     }
 }
