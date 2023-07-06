@@ -42,8 +42,9 @@ springdoc:
     tags-sorter: method         #alpha: 알파벳 순 태그 정렬 / method: HTTP Method 순 정렬
     operations-sorter: method   #alpha: 알파벳 순 태그 정렬 / method: HTTP Method 순 정렬
   api-docs:
-    path: /api-docs/json
+    path: /v1/api-docs
     groups:
       enabled: true
   cache:
     disabled: true
+  show-login-endpoint: true
