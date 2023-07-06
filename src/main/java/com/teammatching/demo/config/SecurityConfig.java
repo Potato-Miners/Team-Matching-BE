@@ -47,7 +47,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .antMatchers(
-                                "/sign-up", "/login", "/swagger-ui/**"
+                                "/sign-up", "/login",
+                                "/swagger-ui.html", "/v1/api-docs/**", "/swagger-ui/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
