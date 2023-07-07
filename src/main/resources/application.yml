@@ -15,7 +15,7 @@ spring:
   profiles:
     include: jwt
   datasource:
-    url: jdbc:mysql://localhost:3306/teamMatching
+    url: jdbc:mysql://team-matching-be-yjsmk0902.koyeb.app/teamMatching
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
