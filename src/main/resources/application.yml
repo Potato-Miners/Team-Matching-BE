@@ -15,14 +15,14 @@ spring:
   profiles:
     include: jwt
   datasource:
-    url: jdbc:mysql://team-matching-be-yjsmk0902.koyeb.app/teamMatching
+    url: jdbc:mysql://team-matching-be-yjsmk0902.koyeb.app:8000/teamMatching
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
