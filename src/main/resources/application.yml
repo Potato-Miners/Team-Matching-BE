@@ -15,9 +15,9 @@ spring:
   profiles:
     include: jwt
   datasource:
-    url: jdbc:mysql://localhost:3306/teamMatching
-    username: root
-    password:
+    url: jdbc:mysql://3.34.178.228:3306/TeamMonDB
+    username: luke
+    password: 04870325
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
@@ -30,6 +30,7 @@ spring:
         default_batch_fetch_size: 100
   sql:
     init:
+      platform: mysql
       mode: always
 
       #Swagger Springdoc-UI Configuration
