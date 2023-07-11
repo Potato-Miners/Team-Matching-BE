@@ -17,13 +17,11 @@ management:
       exposure:
         include: "*"
 
-
 logging:
   level:
     com.teammatching.demo: debug
     org.springframework.web.servlet: debug
     org.hibernate.type.descriptor.sql: trace
-
       #Swagger Springdoc-UI Configuration
 springdoc:
   packages-to-scan: com.teammatching.demo
