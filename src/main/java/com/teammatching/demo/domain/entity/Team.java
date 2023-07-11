@@ -46,7 +46,7 @@ public class Team extends AuditingField {
 
     @Setter
     @Column(nullable = false)
-    private Integer limit;
+    private Integer capacity;
 
     @Setter
     @Column(nullable = false)
@@ -61,13 +61,13 @@ public class Team extends AuditingField {
     private final Set<Admission> admissions = new LinkedHashSet<>();
 
     @Builder
-    private Team(String adminId, String name, String description, Category category, String hashtag, Integer limit, Integer total, LocalDateTime deadline) {
+    private Team(String adminId, String name, String description, Category category, String hashtag, Integer capacity, Integer total, LocalDateTime deadline) {
         this.adminId = adminId;
         this.name = name;
         this.description = description;
         this.category = category;
         this.hashtag = hashtag;
-        this.limit = limit;
+        this.capacity = capacity;
         this.total = total;
         this.deadline = deadline;
     }

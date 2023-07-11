@@ -50,7 +50,7 @@ public class TeamService {
                 team.setTotal(request.total());
             }
             team.setDescription(request.description());
-            team.setLimit(request.limit());
+            team.setCapacity(request.capacity());
         }
     }
 

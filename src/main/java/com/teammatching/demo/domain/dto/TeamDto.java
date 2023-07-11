@@ -18,7 +18,7 @@ public record TeamDto(
         String description,
         Category category,
         String hashtag,
-        Integer limit,
+        Integer capacity,
         Integer total,
         LocalDateTime deadline,
 
@@ -35,7 +35,7 @@ public record TeamDto(
                 .description(entity.getDescription())
                 .category(entity.getCategory())
                 .hashtag(entity.getHashtag())
-                .limit(entity.getLimit())
+                .capacity(entity.getCapacity())
                 .total(entity.getTotal())
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -51,7 +51,7 @@ public record TeamDto(
                 .description(description)
                 .category(category)
                 .hashtag(hashtag)
-                .limit(limit)
+                .capacity(capacity)
                 .total(total)
                 .deadline(deadline)
                 .build();
