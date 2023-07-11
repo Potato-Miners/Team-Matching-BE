@@ -1,3 +1,15 @@
+spring:
+  profiles:
+    active:
+      - dev
+    group:
+      dev:
+        - dev
+      prod:
+        - prod
+    include:
+      - jwt
+
 debug: false
 management:
   endpoints:
@@ -5,32 +17,12 @@ management:
       exposure:
         include: "*"
 
+
 logging:
   level:
     com.teammatching.demo: debug
     org.springframework.web.servlet: debug
     org.hibernate.type.descriptor.sql: trace
-
-spring:
-  profiles:
-    include: jwt
-  datasource:
-    url: jdbc:mysql://localhost:3306/teamMatching
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 100
-  sql:
-    init:
-      mode: always
 
       #Swagger Springdoc-UI Configuration
 springdoc:
