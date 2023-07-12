@@ -40,7 +40,7 @@ public class AdmissionController {
     ) {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_ADMISSION)
                 .resultData(admissionService.getSimpleAdmission(teamId, principal.userId(), pageable)
                         .map(AdmissionDto.SimpleResponse::from))
                 .build();
@@ -59,7 +59,7 @@ public class AdmissionController {
     ) {
         return ResponseResult.<AdmissionDto>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_ADMISSION_BY_USER_ID)
                 .resultData(admissionService.getAdmissionByUserId(teamId, userId, principal.userId()))
                 .build();
     }
@@ -78,7 +78,7 @@ public class AdmissionController {
         admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_APPLY_TEAM)
                 .build();
     }
 }

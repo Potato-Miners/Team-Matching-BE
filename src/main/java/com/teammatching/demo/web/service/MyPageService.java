@@ -28,16 +28,14 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public UserAccountDto getMyPage(String userId, String authenticatedUserId) {
         if (userId.equals(authenticatedUserId)) {
-            return userAccountRepository.findById(userId)
-                    .map(UserAccountDto::from)
-                    .orElseThrow(RuntimeException::new);        //TODO: 예외 처리 구현 필요
+            return UserAccountDto.from(findUserAccountById(userId));
         } else {
-            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
+            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");    //TODO: 예외 처리 구현 필요
         }
     }
 
     public void updateAccount(String userId, UserAccountDto request, String authenticatedUserId) {
-        UserAccount userAccount = userAccountRepository.findById(userId).orElseThrow(RuntimeException::new);    //TODO: 예외 처리 구현 필요
+        UserAccount userAccount = findUserAccountById(userId);    //TODO: 예외 처리 구현 필요
         if (request.userId().equals(authenticatedUserId)) {
             userAccount.setEmail(request.email());
             userAccount.setNickname(request.nickname());
@@ -49,7 +47,7 @@ public class MyPageService {
     public Page<PostDto> getMyPosts(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
             return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto::from);
-        }else{
+        } else {
             throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
         }
     }
@@ -58,7 +56,7 @@ public class MyPageService {
     public Page<CommentDto> getMyComments(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
             return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentDto::from);
-        }else{
+        } else {
             throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
         }
     }
@@ -67,8 +65,12 @@ public class MyPageService {
     public Page<TeamDto> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
             return teamRepository.findByAdminId(userId, pageable).map(TeamDto::from);
-        }else{
+        } else {
             throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
         }
+    }
+
+    private UserAccount findUserAccountById(String userId) {
+        return userAccountRepository.findById(userId).orElseThrow(RuntimeException::new);   //TODO: 예외 처리 구현 필요
     }
 }

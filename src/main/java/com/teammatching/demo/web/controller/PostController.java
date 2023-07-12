@@ -39,7 +39,7 @@ public class PostController {
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
                 .resultData(postService.getSimplePosts(pageable).map(PostDto.SimpleResponse::from))
                 .build();
     }
@@ -55,7 +55,7 @@ public class PostController {
     ) {
         return ResponseResult.<PostWithCommentDto>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_POST_BY_ID)
                 .resultData(postService.getPostById(postId))
                 .build();
     }
@@ -73,7 +73,7 @@ public class PostController {
         postService.createPost(request.toDto(principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_CREATE_POST)
                 .build();
     }
 
@@ -91,7 +91,7 @@ public class PostController {
         postService.updatePost(postId, request.toDto(principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_UPDATE_POST)
                 .build();
     }
 
@@ -108,7 +108,7 @@ public class PostController {
         postService.deletePost(postId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_DELETE_POST)
                 .build();
     }
 }

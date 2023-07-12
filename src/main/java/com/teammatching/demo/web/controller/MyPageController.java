@@ -36,7 +36,7 @@ public class MyPageController {
     ) {
         return ResponseResult.<UserAccountDto>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_MY_PAGE)
                 .resultData(myPageService.getMyPage(userId, principal.userId()))
                 .build();
     }
@@ -54,7 +54,7 @@ public class MyPageController {
         myPageService.updateAccount(userId, request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_UPDATE_ACCOUNT)
                 .build();
     }
 
@@ -70,7 +70,7 @@ public class MyPageController {
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_MY_POSTS)
                 .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable)
                         .map(PostDto.SimpleResponse::from))
                 .build();
@@ -88,7 +88,7 @@ public class MyPageController {
     ) {
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_MY_COMMENTS)
                 .resultData(myPageService.getMyComments(userId, principal.userId(), pageable)
                         .map(CommentDto.SimpleResponse::from))
                 .build();
@@ -106,7 +106,7 @@ public class MyPageController {
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
                 .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
                         .map(TeamDto.SimpleResponse::from))
                 .build();

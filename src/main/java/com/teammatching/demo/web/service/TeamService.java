@@ -25,30 +25,24 @@ public class TeamService {
 
     public void createTeam(TeamDto request, String userId) {
         UserAccount userAccount = userAccountRepository.getReferenceById(userId);
+        if (request.name() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
+        if (request.hashtag() == null) throw new RuntimeException("nullable = false");  //TODO: 예외 처리 구현 필요
+        if (request.capacity() == null) throw new RuntimeException("nullable = false"); //TODO: 예외 처리 구현 필요
+        if (request.total() == null) throw new RuntimeException("nullable = false");    //TODO: 예외 처리 구현 필요
         teamRepository.save(request.toEntity(userAccount));
     }
 
     public TeamDto getTeamById(Long teamId) {
-        return teamRepository.findById(teamId)
-                .map(TeamDto::from)
-                .orElseThrow(RuntimeException::new);    //TODO: 예외 처리 구현 필요
+        return TeamDto.from(findTeamById(teamId));
     }
 
     public void updateTeam(Long teamId, TeamDto request, String userId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(RuntimeException::new);     //TODO: 예외 처리 구현 필요
+        Team team = findTeamById(teamId);
         if (request.adminId().equals(userId)) {
-            if (request.name() != null) {
-                team.setName(request.name());
-            }
-            if (request.category() != null) {
-                team.setCategory(request.category());
-            }
-            if (request.hashtag() != null) {
-                team.setHashtag(request.hashtag());
-            }
-            if (request.total() != null) {
-                team.setTotal(request.total());
-            }
+            if (request.name() != null) team.setName(request.name());
+            if (request.category() != null) team.setCategory(request.category());
+            if (request.hashtag() != null) team.setHashtag(request.hashtag());
+            if (request.total() != null) team.setTotal(request.total());
             team.setDescription(request.description());
             team.setCapacity(request.capacity());
         }
@@ -56,5 +50,9 @@ public class TeamService {
 
     public void deleteTeam(Long teamId, String userId) {
         teamRepository.deleteByIdAndAdminId(teamId, userId);
+    }
+
+    private Team findTeamById(Long teamId) {
+        return teamRepository.findById(teamId).orElseThrow(RuntimeException::new);      //TODO: 예외 처리 구현 필요
     }
 }

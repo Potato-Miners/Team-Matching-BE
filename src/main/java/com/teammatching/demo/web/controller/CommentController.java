@@ -36,7 +36,7 @@ public class CommentController {
         commentService.createComment(request.toDto(postId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_CREATE_COMMENT)
                 .build();
     }
 
@@ -55,7 +55,7 @@ public class CommentController {
         commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_UPDATE_COMMENT)
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class CommentController {
         commentService.deleteComment(commentId, postId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_DELETE_COMMENT)
                 .build();
     }
 }
