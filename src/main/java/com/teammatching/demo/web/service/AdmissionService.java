@@ -28,7 +28,7 @@ public class AdmissionService {
             return admissionRepository.findByTeam_Id(teamId, pageable)
                     .map(AdmissionDto::from);
         } else {
-            throw new RuntimeException("팀의 관리자만 접근할 수 있습니다.");
+            throw new RuntimeException("팀의 관리자만 접근할 수 있습니다.");      //TODO: 예외 처리 구현 필요
         }
     }
 
@@ -38,7 +38,7 @@ public class AdmissionService {
         if (team.getAdminId().equals(adminId)) {
             return AdmissionDto.from(admissionRepository.findByUserAccount_UserId(userId));
         } else {
-            throw new RuntimeException("팀의 관리자만 접근할 수 있습니다.");
+            throw new RuntimeException("팀의 관리자만 접근할 수 있습니다.");      //TODO: 예외 처리 구현 필요
         }
     }
 
@@ -46,13 +46,13 @@ public class AdmissionService {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Team team = teamRepository.getReferenceById(request.teamId());
         if (admissionRepository.findByUserAccountAndTeam(userAccount, team).isPresent()) {
-            throw new RuntimeException("이미 가입신청된 팀입니다.");
+            throw new RuntimeException("이미 가입신청된 팀입니다.");       //TODO: 예외 처리 구현 필요
         }
 
         if (team.getAdminId().equals(userAccount.getUserId())) {
-            throw new RuntimeException("이미 가입된 팀입니다.");
+            throw new RuntimeException("이미 가입된 팀입니다.");         //TODO: 예외 처리 구현 필요
         }
-
+        if (request.approval() == null) throw new RuntimeException("nullable = false");        //TODO: 예외 처리 구현 필요
         admissionRepository.save(request.toEntity(userAccount, team));
     }
 }
