@@ -24,16 +24,14 @@ public class CommentService {
     public void createComment(CommentDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Post post = postRepository.getReferenceById(request.postId());
+        if (request.content() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
         commentRepository.save(request.toEntity(post, userAccount));
     }
 
     public void updateComment(Long commentId, CommentDto request) {
-        UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);     //TODO: 예외 처리 구현 필요
-        if (comment.getUserAccount().equals(userAccount)) {
-            if (request.content() != null) {
-                comment.setContent(request.content());
-            }
+        if (comment.getUserAccount().getUserId().equals(request.userAccountDto().userId())) {
+            if (request.content() != null) comment.setContent(request.content());
         }
     }
 
