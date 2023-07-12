@@ -18,13 +18,13 @@ public class UserAccountService {
 
     public void signUp(UserAccountDto request) {
         if (userAccountRepository.findById(request.userId()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 아이디입니다.");
+            throw new RuntimeException("이미 존재하는 아이디입니다.");      //TODO: 예외 처리 구현 필요
         }
         if (userAccountRepository.findByEmail(request.email()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");
+            throw new RuntimeException("이미 존재하는 이메일입니다.");      //TODO: 예외 처리 구현 필요
         }
         if (userAccountRepository.findByNickname(request.nickname()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 닉네임입니다.");
+            throw new RuntimeException("이미 존재하는 닉네임입니다.");      //TODO: 예외 처리 구현 필요
         }
 
         UserAccount userAccount = request.toEntity();
