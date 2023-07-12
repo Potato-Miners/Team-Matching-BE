@@ -34,7 +34,7 @@ public class UserAccountController {
         userAccountService.signUp(request.toDto());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_SIGN_UP)
                 .build();
     }
 }

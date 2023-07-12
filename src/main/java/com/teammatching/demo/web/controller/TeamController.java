@@ -37,7 +37,7 @@ public class TeamController {
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_TEAMS)
                 .resultData(teamService.getSimpleTeams(pageable).map(TeamDto.SimpleResponse::from))
                 .build();
     }
@@ -53,7 +53,7 @@ public class TeamController {
     ) {
         return ResponseResult.<TeamDto>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_GET_TEAM_BY_ID)
                 .resultData(teamService.getTeamById(teamId))
                 .build();
     }
@@ -71,7 +71,7 @@ public class TeamController {
         teamService.createTeam(request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_CREATE_TEAM)
                 .build();
     }
 
@@ -89,7 +89,7 @@ public class TeamController {
         teamService.updateTeam(teamId, request.toDto(), principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_UPDATE_TEAM)
                 .build();
     }
 
@@ -106,7 +106,7 @@ public class TeamController {
         teamService.deleteTeam(teamId, principal.userId());
         return ResponseResult.<Objects>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMessage(ResponseMessage.SUCCESS)
+                .resultMessage(ResponseMessage.SUCCESS_DELETE_TEAM)
                 .build();
     }
 }
