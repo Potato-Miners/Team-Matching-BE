@@ -27,30 +27,31 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostWithCommentDto getPostById(Long postId) {
-        return postRepository.findById(postId)
-                .map(PostWithCommentDto::from)
-                .orElseThrow(RuntimeException::new);        //TODO: 예외 처리 구현 필요
+        return PostWithCommentDto.from(findPostById(postId));
     }
 
     public void createPost(PostDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
+        if (request.title() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
+        if (request.content() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
         postRepository.save(request.toEntity(userAccount));
     }
 
     public void updatePost(Long postId, PostDto request) {
-        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new); //TODO: 예외 처리 구현 필요
+        Post post = findPostById(postId);
         if (post.getUserAccount().getUserId().equals(request.userAccountDto().userId())) {
-            if (request.title() != null) {
-                post.setTitle(request.title());
-            }
-            if (request.content() != null) {
-                post.setContent(request.content());
-            }
+            if (request.title() != null) post.setTitle(request.title());
+            if (request.content() != null) post.setContent(request.content());
             post.setHashtag(request.hashtag());
         }
     }
 
     public void deletePost(Long postId, String userId) {
         postRepository.deleteByIdAndUserAccount_UserId(postId, userId);
+    }
+
+    private Post findPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(RuntimeException::new);    //TODO: 예외 처리 구현 필요
     }
 }
