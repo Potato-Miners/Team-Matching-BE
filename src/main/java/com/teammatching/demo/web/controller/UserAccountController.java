@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
 
 @Tag(name = "인증 API", description = "인증/인가 관련 API")
 @RestController
@@ -28,12 +27,12 @@ public class UserAccountController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/sign-up")
-    public ResponseResult<Objects> signUp(
+    public ResponseResult<Object> signUp(
             @RequestBody UserAccountDto.SignUpRequest request
     ) {
         userAccountService.signUp(request.toDto());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_SIGN_UP)
                 .build();
     }
