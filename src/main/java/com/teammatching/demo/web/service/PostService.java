@@ -6,6 +6,8 @@ import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.PostRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NullCheckException;
+import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +34,8 @@ public class PostService {
 
     public void createPost(PostDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
-        if (request.title() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
-        if (request.content() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
+        if (request.title() == null) throw new NullCheckException("Post.title");
+        if (request.content() == null) throw new NullCheckException("Post.content");
         postRepository.save(request.toEntity(userAccount));
     }
 
@@ -52,6 +54,6 @@ public class PostService {
 
     private Post findPostById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(RuntimeException::new);    //TODO: 예외 처리 구현 필요
+                .orElseThrow(NotFoundException.Post::new);
     }
 }
