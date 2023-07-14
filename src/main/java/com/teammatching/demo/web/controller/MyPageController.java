@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
 @Tag(name = "마이페이지 API", description = "마이페이지 관련 API")
 @RequiredArgsConstructor
 @RequestMapping("/my-page/{userId}")
@@ -35,7 +33,7 @@ public class MyPageController {
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         return ResponseResult.<UserAccountDto>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_PAGE)
                 .resultData(myPageService.getMyPage(userId, principal.userId()))
                 .build();
@@ -46,14 +44,14 @@ public class MyPageController {
             description = "요청받은 유저의 정보를 수정합니다."
     )
     @PatchMapping
-    public ResponseResult<Objects> updateAccount(
+    public ResponseResult<Object> updateAccount(
             @PathVariable("userId") String userId,
             @RequestBody UserAccountDto.UpdateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         myPageService.updateAccount(userId, request.toDto(), principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_ACCOUNT)
                 .build();
     }
@@ -69,7 +67,7 @@ public class MyPageController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_POSTS)
                 .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable)
                         .map(PostDto.SimpleResponse::from))
@@ -87,7 +85,7 @@ public class MyPageController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_COMMENTS)
                 .resultData(myPageService.getMyComments(userId, principal.userId(), pageable)
                         .map(CommentDto.SimpleResponse::from))
@@ -105,7 +103,7 @@ public class MyPageController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
                 .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
                         .map(TeamDto.SimpleResponse::from))

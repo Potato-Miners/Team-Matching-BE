@@ -5,6 +5,8 @@ import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NullCheckException;
+import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,10 +27,10 @@ public class TeamService {
 
     public void createTeam(TeamDto request, String userId) {
         UserAccount userAccount = userAccountRepository.getReferenceById(userId);
-        if (request.name() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
-        if (request.hashtag() == null) throw new RuntimeException("nullable = false");  //TODO: 예외 처리 구현 필요
-        if (request.capacity() == null) throw new RuntimeException("nullable = false"); //TODO: 예외 처리 구현 필요
-        if (request.total() == null) throw new RuntimeException("nullable = false");    //TODO: 예외 처리 구현 필요
+        if (request.name() == null) throw new NullCheckException("Team.name");
+        if (request.hashtag() == null) throw new NullCheckException("Team.hashtag");
+        if (request.capacity() == null) throw new NullCheckException("Team.capacity");
+        if (request.total() == null) throw new NullCheckException("Team.total");
         teamRepository.save(request.toEntity(userAccount));
     }
 
@@ -53,6 +55,6 @@ public class TeamService {
     }
 
     private Team findTeamById(Long teamId) {
-        return teamRepository.findById(teamId).orElseThrow(RuntimeException::new);      //TODO: 예외 처리 구현 필요
+        return teamRepository.findById(teamId).orElseThrow(NotFoundException.Team::new);
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
 
 @Tag(name = "팀 API", description = "팀 관련 도메인 API")
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class TeamController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_TEAMS)
                 .resultData(teamService.getSimpleTeams(pageable).map(TeamDto.SimpleResponse::from))
                 .build();
@@ -52,7 +51,7 @@ public class TeamController {
             @PathVariable("teamId") Long teamId
     ) {
         return ResponseResult.<TeamDto>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_TEAM_BY_ID)
                 .resultData(teamService.getTeamById(teamId))
                 .build();
@@ -64,13 +63,13 @@ public class TeamController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseResult<Objects> createTeam(
+    public ResponseResult<Object> createTeam(
             @RequestBody TeamDto.CreateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         teamService.createTeam(request.toDto(), principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_CREATE_TEAM)
                 .build();
     }
@@ -81,14 +80,14 @@ public class TeamController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{teamId}")
-    public ResponseResult<Objects> updateTeam(
+    public ResponseResult<Object> updateTeam(
             @PathVariable("teamId") Long teamId,
             @RequestBody TeamDto.UpdateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         teamService.updateTeam(teamId, request.toDto(), principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_TEAM)
                 .build();
     }
@@ -99,13 +98,13 @@ public class TeamController {
     )
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{teamId}")
-    public ResponseResult<Objects> deleteTeam(
+    public ResponseResult<Object> deleteTeam(
             @PathVariable("teamId") Long teamId,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         teamService.deleteTeam(teamId, principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_DELETE_TEAM)
                 .build();
     }

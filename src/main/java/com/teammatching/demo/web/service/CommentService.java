@@ -8,6 +8,8 @@ import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.CommentRepository;
 import com.teammatching.demo.domain.repository.PostRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NotFoundException;
+import com.teammatching.demo.result.exception.NullCheckException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +26,12 @@ public class CommentService {
     public void createComment(CommentDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
         Post post = postRepository.getReferenceById(request.postId());
-        if (request.content() == null) throw new RuntimeException("nullable = false");     //TODO: 예외 처리 구현 필요
+        if (request.content() == null) throw new NullCheckException("Comment.content");
         commentRepository.save(request.toEntity(post, userAccount));
     }
 
     public void updateComment(Long commentId, CommentDto request) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(RuntimeException::new);     //TODO: 예외 처리 구현 필요
+        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundException.Comment::new);
         if (comment.getUserAccount().getUserId().equals(request.userAccountDto().userId())) {
             if (request.content() != null) comment.setContent(request.content());
         }

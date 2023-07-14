@@ -17,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
 @Tag(name = "가입 신청 API", description = "가입 신청 도메인 관련 API")
 @RequiredArgsConstructor
 @RequestMapping("/teams/{teamId}/admission")
@@ -39,7 +37,7 @@ public class AdmissionController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_ADMISSION)
                 .resultData(admissionService.getSimpleAdmission(teamId, principal.userId(), pageable)
                         .map(AdmissionDto.SimpleResponse::from))
@@ -58,7 +56,7 @@ public class AdmissionController {
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         return ResponseResult.<AdmissionDto>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_ADMISSION_BY_USER_ID)
                 .resultData(admissionService.getAdmissionByUserId(teamId, userId, principal.userId()))
                 .build();
@@ -70,14 +68,14 @@ public class AdmissionController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseResult<Objects> applyTeam(
+    public ResponseResult<Object> applyTeam(
             @PathVariable("teamId") Long teamId,
             @RequestBody AdmissionDto.CreateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_APPLY_TEAM)
                 .build();
     }

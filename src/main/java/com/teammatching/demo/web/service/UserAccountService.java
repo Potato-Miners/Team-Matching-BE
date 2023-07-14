@@ -3,6 +3,7 @@ package com.teammatching.demo.web.service;
 import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.AlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,13 @@ public class UserAccountService {
 
     public void signUp(UserAccountDto request) {
         if (userAccountRepository.findById(request.userId()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 아이디입니다.");      //TODO: 예외 처리 구현 필요
+            throw new AlreadyExistsException("아이디");
         }
         if (userAccountRepository.findByEmail(request.email()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");      //TODO: 예외 처리 구현 필요
+            throw new AlreadyExistsException("이메일");
         }
         if (userAccountRepository.findByNickname(request.nickname()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 닉네임입니다.");      //TODO: 예외 처리 구현 필요
+            throw new AlreadyExistsException("닉네임");
         }
 
         UserAccount userAccount = request.toEntity();

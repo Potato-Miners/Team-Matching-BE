@@ -17,9 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
-
 @Tag(name = "게시글 API", description = "게시글 도메인 관련 API")
 @RequiredArgsConstructor
 @RequestMapping("/posts")
@@ -38,7 +35,7 @@ public class PostController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
                 .resultData(postService.getSimplePosts(pageable).map(PostDto.SimpleResponse::from))
                 .build();
@@ -54,7 +51,7 @@ public class PostController {
             @PathVariable("postId") Long postId
     ) {
         return ResponseResult.<PostWithCommentDto>builder()
-                .statusCode(HttpStatus.OK)
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_POST_BY_ID)
                 .resultData(postService.getPostById(postId))
                 .build();
@@ -66,13 +63,13 @@ public class PostController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseResult<Objects> createPost(
+    public ResponseResult<Object> createPost(
             @RequestBody PostDto.CreateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         postService.createPost(request.toDto(principal.toDto()));
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_CREATE_POST)
                 .build();
     }
@@ -83,14 +80,14 @@ public class PostController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{postId}")
-    public ResponseResult<Objects> updatePost(
+    public ResponseResult<Object> updatePost(
             @PathVariable("postId") Long postId,
             @RequestBody PostDto.UpdateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         postService.updatePost(postId, request.toDto(principal.toDto()));
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_POST)
                 .build();
     }
@@ -101,13 +98,13 @@ public class PostController {
     )
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{postId}")
-    public ResponseResult<Objects> deletePost(
+    public ResponseResult<Object> deletePost(
             @PathVariable("postId") Long postId,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         postService.deletePost(postId, principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_DELETE_POST)
                 .build();
     }

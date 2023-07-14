@@ -9,6 +9,8 @@ import com.teammatching.demo.domain.repository.CommentRepository;
 import com.teammatching.demo.domain.repository.PostRepository;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NotEqualsException;
+import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,7 @@ public class MyPageService {
         if (userId.equals(authenticatedUserId)) {
             return UserAccountDto.from(findUserAccountById(userId));
         } else {
-            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");    //TODO: 예외 처리 구현 필요
+            throw new NotEqualsException.UserAccount();
         }
     }
 
@@ -48,7 +50,7 @@ public class MyPageService {
         if (userId.equals(authenticatedUserId)) {
             return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto::from);
         } else {
-            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
+            throw new NotEqualsException.UserAccount();
         }
     }
 
@@ -57,7 +59,7 @@ public class MyPageService {
         if (userId.equals(authenticatedUserId)) {
             return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentDto::from);
         } else {
-            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
+            throw new NotEqualsException.UserAccount();
         }
     }
 
@@ -66,11 +68,12 @@ public class MyPageService {
         if (userId.equals(authenticatedUserId)) {
             return teamRepository.findByAdminId(userId, pageable).map(TeamDto::from);
         } else {
-            throw new RuntimeException("접근을 시도한 사용자의 계정이 아니므로 접근할 수 없습니다.");        //TODO: 예외 처리 구현 필요
+            throw new NotEqualsException.UserAccount();
         }
     }
 
     private UserAccount findUserAccountById(String userId) {
-        return userAccountRepository.findById(userId).orElseThrow(RuntimeException::new);   //TODO: 예외 처리 구현 필요
+        return userAccountRepository.findById(userId)
+                .orElseThrow(NotFoundException.UserAccount::new);
     }
 }

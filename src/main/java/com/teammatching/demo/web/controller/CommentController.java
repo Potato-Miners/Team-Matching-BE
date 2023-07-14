@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
 @Tag(name = "댓글 API", description = "댓글 관련 도메인 API")
 @RequiredArgsConstructor
 @RequestMapping("/posts/{postId}/comments")
@@ -28,14 +26,14 @@ public class CommentController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseResult<Objects> createComment(
+    public ResponseResult<Object> createComment(
             @PathVariable("postId") Long postId,
             @RequestBody CommentDto.CreateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         commentService.createComment(request.toDto(postId, principal.toDto()));
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_CREATE_COMMENT)
                 .build();
     }
@@ -46,15 +44,15 @@ public class CommentController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{commentId}")
-    public ResponseResult<Objects> updateComment(
+    public ResponseResult<Object> updateComment(
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
             @RequestBody CommentDto.UpdateRequest request,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_COMMENT)
                 .build();
     }
@@ -65,14 +63,14 @@ public class CommentController {
     )
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{commentId}")
-    public ResponseResult<Objects> deleteComment(
+    public ResponseResult<Object> deleteComment(
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
             @AuthenticationPrincipal TeamMatchPrincipal principal
     ) {
         commentService.deleteComment(commentId, postId, principal.userId());
-        return ResponseResult.<Objects>builder()
-                .statusCode(HttpStatus.OK)
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_DELETE_COMMENT)
                 .build();
     }
