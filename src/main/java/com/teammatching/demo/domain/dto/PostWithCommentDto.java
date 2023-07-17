@@ -1,6 +1,7 @@
 package com.teammatching.demo.domain.dto;
 
 import com.teammatching.demo.domain.entity.Post;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Schema(name = "PostWithCommentDto(게시물 Dto (댓글 정보도 함께))")
 @Builder
 public record PostWithCommentDto(
         Long id,
