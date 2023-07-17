@@ -46,9 +46,9 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI openAPI() {
         Info info = new Info()
-                .title("팀 매칭 서비스")
-                .version("0.1")
-                .description("설명은 뭐라하지");
+                .title("Team Mon")
+                .version("0.2")
+                .description("Team Mon 서비스의 API Docs 입니다.");
         return new OpenAPI()
                 .components(new Components())
                 .info(info);
