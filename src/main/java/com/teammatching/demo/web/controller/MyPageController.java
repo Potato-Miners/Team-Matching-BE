@@ -30,7 +30,7 @@ public class MyPageController {
     @GetMapping
     public ResponseResult<UserAccountDto> getMyPage(
             @PathVariable("userId") String userId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         return ResponseResult.<UserAccountDto>builder()
                 .resultCode(HttpStatus.OK.value())
@@ -47,7 +47,7 @@ public class MyPageController {
     public ResponseResult<Object> updateAccount(
             @PathVariable("userId") String userId,
             @RequestBody UserAccountDto.UpdateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         myPageService.updateAccount(userId, request.toDto(), principal.userId());
         return ResponseResult.builder()
@@ -63,7 +63,7 @@ public class MyPageController {
     @GetMapping("/posts")
     public ResponseResult<Page<PostDto.SimpleResponse>> getMyPosts(
             @PathVariable("userId") String userId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal,
+            @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
@@ -81,7 +81,7 @@ public class MyPageController {
     @GetMapping("/comments")
     public ResponseResult<Page<CommentDto.SimpleResponse>> getMyComments(
             @PathVariable("userId") String userId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal,
+            @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
@@ -99,7 +99,7 @@ public class MyPageController {
     @GetMapping("/teams")
     public ResponseResult<Page<TeamDto.SimpleResponse>> getMyTeams(
             @PathVariable("userId") String userId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal,
+            @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()

@@ -2,7 +2,7 @@ package com.teammatching.demo.web.controller;
 
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
-import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
+import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.AdmissionService;
@@ -33,7 +33,7 @@ public class AdmissionController {
     @GetMapping
     public ResponseResult<Page<AdmissionDto.SimpleResponse>> getSimpleAdmission(
             @PathVariable("teamId") Long teamId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal,
+            @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
@@ -53,7 +53,7 @@ public class AdmissionController {
     public ResponseResult<AdmissionDto> getAdmissionByUserId(
             @PathVariable("teamId") Long teamId,
             @PathVariable("userId") String userId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         return ResponseResult.<AdmissionDto>builder()
                 .resultCode(HttpStatus.OK.value())
@@ -71,7 +71,7 @@ public class AdmissionController {
     public ResponseResult<Object> applyTeam(
             @PathVariable("teamId") Long teamId,
             @RequestBody AdmissionDto.CreateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
         return ResponseResult.builder()
