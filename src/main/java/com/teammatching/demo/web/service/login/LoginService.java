@@ -1,14 +1,14 @@
 package com.teammatching.demo.web.service.login;
 
+import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,12 +31,14 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         UserAccount userAccount = userAccountRepository.findById(userId)
-                .orElseThrow(RuntimeException::new);    //TODO: 예외 처리 구현 필요
+                .orElseThrow(NotFoundException.UserAccount::new);
 
-        return User.builder()
-                .username(userAccount.getUserId())
-                .password(userAccount.getUserPassword())
-                .roles(userAccount.getRole().name())
+        return Principal.builder()
+                .userId(userAccount.getUserId())
+                .userPassword(userAccount.getUserPassword())
+                .email(userAccount.getEmail())
+                .nickname(userAccount.getNickname())
+                .memo(userAccount.getMemo())
                 .build();
     }
 }

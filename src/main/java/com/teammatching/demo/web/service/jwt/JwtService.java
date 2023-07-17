@@ -3,6 +3,7 @@ package com.teammatching.demo.web.service.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,7 +100,7 @@ public class JwtService {
         userAccountRepository.findById(userId)
                 .ifPresentOrElse(
                         userAccount -> userAccount.updateRefreshToken(refreshToken),
-                        () -> new RuntimeException("일치하는 회원이 없습니다.")
+                        NotFoundException.UserAccount::new
                 );
     }
 
