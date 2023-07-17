@@ -36,4 +36,5 @@ public class UserAccountController {
                 .resultMessage(ResponseMessage.SUCCESS_SIGN_UP)
                 .build();
     }
+
 }

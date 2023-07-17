@@ -1,5 +1,6 @@
 package com.teammatching.demo.web.filter.jwt;
 
+import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.web.service.jwt.JwtService;
@@ -12,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -104,21 +104,22 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     }
 
     private void saveAuthentication(UserAccount userAccount) {
-        String password = userAccount.getUserPassword();
-        if (password == null) {
-            password = PasswordUtil.generateRandomPassword();
+        String userPassword = userAccount.getUserPassword();
+        if (userPassword == null) {
+            userPassword = PasswordUtil.generateRandomPassword();
         }
-
-        UserDetails user = User.builder()
-                .username(userAccount.getUserId())
-                .password(password)
-                .roles(userAccount.getRole().name())
+        UserDetails userDetails = Principal.builder()
+                .userId(userAccount.getUserId())
+                .userPassword(userAccount.getUserPassword())
+                .email(userAccount.getEmail())
+                .nickname(userAccount.getNickname())
+                .memo(userAccount.getMemo())
                 .build();
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                user,
+                userDetails,
                 null,
-                authoritiesMapper.mapAuthorities(user.getAuthorities())
+                authoritiesMapper.mapAuthorities(userDetails.getAuthorities())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

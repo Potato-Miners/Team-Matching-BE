@@ -3,10 +3,12 @@ package com.teammatching.demo.domain.dto;
 import com.teammatching.demo.domain.entity.Comment;
 import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Schema(name = "CommentDto(댓글 Dto)")
 @Builder
 public record CommentDto(
         Long id,
@@ -41,6 +43,7 @@ public record CommentDto(
                 .build();
     }
 
+    @Schema(name = "CommentDto.CreateRequest(댓글 생성 요청 Dto)")
     public record CreateRequest(
             String content
     ) {
@@ -53,6 +56,7 @@ public record CommentDto(
         }
     }
 
+    @Schema(name = "CommentDto.UpdateRequest",description = "댓글 수정 요청 Dto")
     public record UpdateRequest(
             String content
     ) {
@@ -65,6 +69,7 @@ public record CommentDto(
         }
     }
 
+    @Schema(name = "CommentDto.SimpleResponse(댓글 간단 응답 Dto)")
     @Builder
     public record SimpleResponse(
             Long id,

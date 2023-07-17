@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -23,6 +26,13 @@ public class AdmissionService {
     private final AdmissionRepository admissionRepository;
     private final TeamRepository teamRepository;
     private final UserAccountRepository userAccountRepository;
+
+    @Transactional(readOnly = true)
+    public List<AdmissionDto> getAdmissions() {
+        return admissionRepository.findAll().stream()
+                .map(AdmissionDto::from)
+                .collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     public Page<AdmissionDto> getSimpleAdmission(Long teamId, String adminId, Pageable pageable) {
@@ -59,4 +69,5 @@ public class AdmissionService {
         if (request.approval() == null) throw new NullCheckException("가입 신청서");
         admissionRepository.save(request.toEntity(userAccount, team));
     }
+
 }

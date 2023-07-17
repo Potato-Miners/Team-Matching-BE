@@ -2,10 +2,12 @@ package com.teammatching.demo.domain.dto;
 
 import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Schema(name = "PostDto(게시물 Dto)")
 @Builder
 public record PostDto(
         Long id,
@@ -43,6 +45,7 @@ public record PostDto(
                 .build();
     }
 
+    @Schema(name = "PostDto.SimpleResponse(게시물 간단 응답 Dto)")
     @Builder
     public record SimpleResponse(
             Long id,
@@ -64,6 +67,7 @@ public record PostDto(
         }
     }
 
+    @Schema(name = "PostDto.CreateRequest(게시물 생성 요청 Dto)")
     public record CreateRequest(
             String title,
             String content,
@@ -79,6 +83,7 @@ public record PostDto(
         }
     }
 
+    @Schema(name = "PostDto.UpdateRequest(게시물 수정 요청 Dto)")
     public record UpdateRequest(
             String title,
             String content,

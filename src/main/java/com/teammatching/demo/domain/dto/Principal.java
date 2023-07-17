@@ -1,8 +1,7 @@
 package com.teammatching.demo.domain.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record TeamMatchPrincipal(
+@Schema(name = "TeamMatchPrincipal(유저 인증 정보)")
+public record Principal(
         String userId,
         String userPassword,
         Collection<? extends GrantedAuthority> authorities,
@@ -22,7 +22,7 @@ public record TeamMatchPrincipal(
 ) implements UserDetails {
 
     @Builder
-    public TeamMatchPrincipal{
+    public Principal {
         if (Objects.isNull(authorities)) {
             authorities = Set.of(RoleType.USER).stream()
                     .map(RoleType::getName)
@@ -31,8 +31,8 @@ public record TeamMatchPrincipal(
         }
     }
 
-    public static TeamMatchPrincipal from(UserAccountDto dto) {
-        return TeamMatchPrincipal.builder()
+    public static Principal from(UserAccountDto dto) {
+        return Principal.builder()
                 .userId(dto.userId())
                 .userPassword(dto.userPassword())
                 .email(dto.email())
@@ -102,7 +102,7 @@ public record TeamMatchPrincipal(
      */
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     /**
@@ -127,4 +127,5 @@ public record TeamMatchPrincipal(
     public boolean isEnabled() {
         return true;
     }
+
 }

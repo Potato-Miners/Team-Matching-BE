@@ -1,12 +1,14 @@
 package com.teammatching.demo.domain.dto;
 
-import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.Admission;
+import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Schema(name = "AdmissionDto(가입 신청 Dto)")
 @Builder
 public record AdmissionDto(
         Long id,
@@ -40,6 +42,7 @@ public record AdmissionDto(
                 .build();
     }
 
+    @Schema(name = "AdmissionDto.SimpleResponse(가입 신청 간단 응답 Dto)")
     @Builder
     public record SimpleResponse(
             Long id,
@@ -53,6 +56,7 @@ public record AdmissionDto(
         }
     }
 
+    @Schema(name = "AdmissionDto.CreateResponse(가입 신청 생성 요청 Dto)")
     public record CreateRequest(
             String application
     ) {

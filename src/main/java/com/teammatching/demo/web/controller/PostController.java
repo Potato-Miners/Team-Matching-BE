@@ -2,7 +2,7 @@ package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.PostDto;
 import com.teammatching.demo.domain.dto.PostWithCommentDto;
-import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
+import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.PostService;
@@ -65,7 +65,7 @@ public class PostController {
     @PostMapping
     public ResponseResult<Object> createPost(
             @RequestBody PostDto.CreateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         postService.createPost(request.toDto(principal.toDto()));
         return ResponseResult.builder()
@@ -83,7 +83,7 @@ public class PostController {
     public ResponseResult<Object> updatePost(
             @PathVariable("postId") Long postId,
             @RequestBody PostDto.UpdateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         postService.updatePost(postId, request.toDto(principal.toDto()));
         return ResponseResult.builder()
@@ -100,7 +100,7 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseResult<Object> deletePost(
             @PathVariable("postId") Long postId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         postService.deletePost(postId, principal.userId());
         return ResponseResult.builder()

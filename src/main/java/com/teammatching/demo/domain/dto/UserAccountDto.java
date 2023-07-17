@@ -1,10 +1,12 @@
 package com.teammatching.demo.domain.dto;
 
 import com.teammatching.demo.domain.entity.UserAccount;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Schema(name = "UserAccountDto(유저 Dto)")
 @Builder
 public record UserAccountDto(
         Long id,
@@ -50,6 +52,7 @@ public record UserAccountDto(
                 .build();
     }
 
+    @Schema(name = "UserAccountDto.SignUpRequest(유저 회원가입 요청 Dto)")
     public record SignUpRequest(
             String userId,
             String userPassword,
@@ -67,12 +70,14 @@ public record UserAccountDto(
         }
     }
 
+    @Schema(name = "UserAccountDto.LoginRequest(유저 로그인 요청 Dto)")
     public record LoginRequest(
             String userId,
             String userPassword
     ) {
     }
 
+    @Schema(name = "UserAccountDto.UpdateRequest(유저 수정 요청 Dto)")
     public record UpdateRequest(
             String email,
             String nickname,

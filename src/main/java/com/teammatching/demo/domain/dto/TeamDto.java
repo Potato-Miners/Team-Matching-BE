@@ -3,13 +3,12 @@ package com.teammatching.demo.domain.dto;
 import com.teammatching.demo.domain.Category;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+@Schema(name = "TeamDto(팀 Dto)")
 @Builder
 public record TeamDto(
         Long id,
@@ -57,6 +56,7 @@ public record TeamDto(
                 .build();
     }
 
+    @Schema(name = "TeamDto.SimpleResponse(팀 간단 응답 Dto)")
     @Builder
     public record SimpleResponse(
             Long id,
@@ -79,6 +79,7 @@ public record TeamDto(
 
     }
 
+    @Schema(name = "TeamDto.CreateRequest(팀 생성 요청 Dto)")
     public record CreateRequest(
             String name,
             String description,
@@ -97,6 +98,7 @@ public record TeamDto(
         }
     }
 
+    @Schema(name = "TeamDto.UpdateRequest(팀 수정 요청 Dto)")
     public record UpdateRequest(
             String name,
             String description,

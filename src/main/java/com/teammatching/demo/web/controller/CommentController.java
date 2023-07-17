@@ -1,7 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 import com.teammatching.demo.domain.dto.CommentDto;
-import com.teammatching.demo.domain.dto.TeamMatchPrincipal;
+import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.CommentService;
@@ -29,7 +29,7 @@ public class CommentController {
     public ResponseResult<Object> createComment(
             @PathVariable("postId") Long postId,
             @RequestBody CommentDto.CreateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         commentService.createComment(request.toDto(postId, principal.toDto()));
         return ResponseResult.builder()
@@ -48,7 +48,7 @@ public class CommentController {
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
             @RequestBody CommentDto.UpdateRequest request,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
         return ResponseResult.builder()
@@ -66,7 +66,7 @@ public class CommentController {
     public ResponseResult<Object> deleteComment(
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
-            @AuthenticationPrincipal TeamMatchPrincipal principal
+            @AuthenticationPrincipal Principal principal
     ) {
         commentService.deleteComment(commentId, postId, principal.userId());
         return ResponseResult.builder()
