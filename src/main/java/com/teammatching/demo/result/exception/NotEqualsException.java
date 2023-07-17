@@ -7,5 +7,4 @@ public class NotEqualsException extends RuntimeException {
 
     public static class TeamAdmin extends NotEqualsException {
     }
-
 }

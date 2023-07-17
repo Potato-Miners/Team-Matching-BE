@@ -1,11 +1,13 @@
 package com.teammatching.demo.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Schema(hidden = true)
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
