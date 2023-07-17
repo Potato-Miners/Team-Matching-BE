@@ -1,7 +1,6 @@
 package com.teammatching.demo.web.service;
 
 import com.teammatching.demo.domain.dto.CommentDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.Comment;
 import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
@@ -14,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -22,6 +24,14 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserAccountRepository userAccountRepository;
+
+
+    @Transactional(readOnly = true)
+    public List<CommentDto> getComments() {
+        return commentRepository.findAll().stream()
+                .map(CommentDto::from)
+                .collect(Collectors.toList());
+    }
 
     public void createComment(CommentDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());

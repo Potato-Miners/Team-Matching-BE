@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -21,6 +24,13 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserAccountRepository userAccountRepository;
+
+    @Transactional(readOnly = true)
+    public List<PostDto> getPosts() {
+        return postRepository.findAll().stream()
+                .map(PostDto::from)
+                .collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     public Page<PostDto> getSimplePosts(Pageable pageable) {

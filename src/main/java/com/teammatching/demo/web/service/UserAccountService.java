@@ -9,6 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -16,6 +19,13 @@ public class UserAccountService {
 
     private final UserAccountRepository userAccountRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional(readOnly = true)
+    public List<UserAccountDto> getUserAccounts() {
+        return userAccountRepository.findAll().stream()
+                .map(UserAccountDto::from)
+                .collect(Collectors.toList());
+    }
 
     public void signUp(UserAccountDto request) {
         if (userAccountRepository.findById(request.userId()).isPresent()) {

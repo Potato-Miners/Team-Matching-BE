@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -20,6 +23,13 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
     private final UserAccountRepository userAccountRepository;
+
+    @Transactional(readOnly = true)
+    public List<TeamDto> getTeams() {
+        return teamRepository.findAll().stream()
+                .map(TeamDto::from)
+                .collect(Collectors.toList());
+    }
 
     public Page<TeamDto> getSimpleTeams(Pageable pageable) {
         return teamRepository.findAll(pageable).map(TeamDto::from);
