@@ -1,5 +1,6 @@
 package com.teammatching.demo.web.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.PostDto;
 import com.teammatching.demo.domain.dto.PostWithCommentDto;
 import com.teammatching.demo.domain.dto.Principal;
@@ -67,6 +68,7 @@ public class PostController {
             @RequestBody PostDto.CreateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         postService.createPost(request.toDto(principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -85,6 +87,7 @@ public class PostController {
             @RequestBody PostDto.UpdateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         postService.updatePost(postId, request.toDto(principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -102,6 +105,7 @@ public class PostController {
             @PathVariable("postId") Long postId,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         postService.deletePost(postId, principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
