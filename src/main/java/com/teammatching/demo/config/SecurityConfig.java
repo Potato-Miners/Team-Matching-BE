@@ -47,9 +47,10 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .antMatchers(
                                 "/sign-up", "/login",
-                                "/swagger-ui.html", "/v1/api-docs/**", "/swagger-ui/**"
+                                "/swagger-ui.html", "/v1/api-docs/**", "/swagger-ui/**",
+                                "/api/r/**"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
                 )
                 .addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class)
                 .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class)
