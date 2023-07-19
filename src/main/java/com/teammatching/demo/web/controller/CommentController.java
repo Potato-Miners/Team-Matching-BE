@@ -1,5 +1,6 @@
 package com.teammatching.demo.web.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.CommentDto;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
@@ -31,6 +32,7 @@ public class CommentController {
             @RequestBody CommentDto.CreateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         commentService.createComment(request.toDto(postId, principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -50,6 +52,7 @@ public class CommentController {
             @RequestBody CommentDto.UpdateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -68,6 +71,7 @@ public class CommentController {
             @PathVariable("commentId") Long commentId,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         commentService.deleteComment(commentId, postId, principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())

@@ -1,5 +1,6 @@
 package com.teammatching.demo.web.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.*;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
@@ -32,6 +33,7 @@ public class MyPageController {
             @PathVariable("userId") String userId,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<UserAccountDto>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_PAGE)
@@ -49,6 +51,7 @@ public class MyPageController {
             @RequestBody UserAccountDto.UpdateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         myPageService.updateAccount(userId, request.toDto(), principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -66,6 +69,7 @@ public class MyPageController {
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_POSTS)
@@ -84,6 +88,7 @@ public class MyPageController {
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_COMMENTS)
@@ -102,6 +107,7 @@ public class MyPageController {
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)

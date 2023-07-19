@@ -1,6 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.AdmissionDto;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
@@ -36,6 +37,7 @@ public class AdmissionController {
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_ADMISSION)
@@ -55,6 +57,7 @@ public class AdmissionController {
             @PathVariable("userId") String userId,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<AdmissionDto>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_ADMISSION_BY_USER_ID)
@@ -73,6 +76,7 @@ public class AdmissionController {
             @RequestBody AdmissionDto.CreateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())

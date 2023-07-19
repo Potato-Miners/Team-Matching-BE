@@ -1,5 +1,6 @@
 package com.teammatching.demo.web.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.TeamDto;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
@@ -85,6 +86,7 @@ public class TeamController {
             @RequestBody TeamDto.UpdateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         teamService.updateTeam(teamId, request.toDto(), principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
@@ -102,6 +104,7 @@ public class TeamController {
             @PathVariable("teamId") Long teamId,
             @AuthenticationPrincipal Principal principal
     ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         teamService.deleteTeam(teamId, principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
