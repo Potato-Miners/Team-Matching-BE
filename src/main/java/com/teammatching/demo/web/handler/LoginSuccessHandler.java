@@ -1,10 +1,13 @@
 package com.teammatching.demo.web.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -20,6 +23,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
     private final UserAccountRepository userAccountRepository;
+    private final ObjectMapper objectMapper;
 
     @Value("${jwt.access.expiration}")
     private String accessTokenExpiration;
@@ -50,6 +54,20 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                     userAccount.updateRefreshToken(refreshToken);
                     userAccountRepository.saveAndFlush(userAccount);
                 });
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+
+        ResponseResult<Object> responseResult = ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage("로그인에 성공하였습니다.")
+                .build();
+
+        String result = objectMapper.writeValueAsString(responseResult);
+
+        response.getWriter().write(result);
+
         log.info("Login Success!! userId : {}", userId);
         log.info("Login Success!! AccessToken : {}", accessToken);
         log.info("AccessToken Expiration Period : {}", accessTokenExpiration);
