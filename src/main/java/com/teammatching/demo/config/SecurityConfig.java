@@ -72,12 +72,12 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, userAccountRepository);
+        return new LoginSuccessHandler(jwtService, userAccountRepository,objectMapper);
     }
 
     @Bean
     public LoginFailureHandler loginFailureHandler() {
-        return new LoginFailureHandler();
+        return new LoginFailureHandler(objectMapper);
     }
 
     @Bean
