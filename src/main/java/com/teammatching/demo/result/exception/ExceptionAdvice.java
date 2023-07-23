@@ -3,6 +3,9 @@ package com.teammatching.demo.result.exception;
 import com.auth0.jwt.exceptions.*;
 import com.teammatching.demo.result.ResponseResult;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -78,6 +81,41 @@ public class ExceptionAdvice {
         if (e instanceof SignatureVerificationException) resultMessage = "인증 토큰의 서명이 유효하지 않습니다.";
         if (e instanceof MissingClaimException) resultMessage = "인증 토큰의 권한이 없습니다.";
         if (e instanceof IncorrectClaimException) resultMessage = "인증 토큰의 권한이 일치하지 않습니다.";
+
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.UNAUTHORIZED.value())
+                .resultMessage(resultMessage)
+                .build();
+    }
+
+    //401
+    @ExceptionHandler({
+            NotFoundException.class,
+            NotFoundException.UserAccount.class,
+            NotFoundException.Admission.class,
+            NotFoundException.Comment.class,
+            NotFoundException.Post.class,
+            NotFoundException.Team.class
+    })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseResult<Object> notFoundException(NotFoundException e) {
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.UNAUTHORIZED.value())
+                .resultMessage("해당 " + e.getMessage() + "(을)를 찾을 수 없습니다.")
+                .build();
+    }
+
+    //401
+    @ExceptionHandler({
+            AuthenticationException.class,
+            BadCredentialsException.class,
+            InternalAuthenticationServiceException.class
+    })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseResult<Object> authenticationException(AuthenticationException e) {
+        String resultMessage = e.getMessage();
+        if (e instanceof InternalAuthenticationServiceException) resultMessage = "존재하지 않는 아이디입니다.";
+        if (e instanceof BadCredentialsException) resultMessage = "비밀번호가 맞지 않습니다.";
 
         return ResponseResult.builder()
                 .resultCode(HttpStatus.UNAUTHORIZED.value())
