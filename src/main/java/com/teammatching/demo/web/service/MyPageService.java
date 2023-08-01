@@ -5,10 +5,7 @@ import com.teammatching.demo.domain.dto.PostDto;
 import com.teammatching.demo.domain.dto.TeamDto;
 import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
-import com.teammatching.demo.domain.repository.CommentRepository;
-import com.teammatching.demo.domain.repository.PostRepository;
-import com.teammatching.demo.domain.repository.TeamRepository;
-import com.teammatching.demo.domain.repository.UserAccountRepository;
+import com.teammatching.demo.domain.repository.*;
 import com.teammatching.demo.result.exception.NotEqualsException;
 import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -26,6 +25,7 @@ public class MyPageService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamRepository teamRepository;
+    private final AdmissionRepository admissionRepository;
 
     @Transactional(readOnly = true)
     public UserAccountDto getMyPage(String userId, String authenticatedUserId) {
@@ -66,7 +66,8 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public Page<TeamDto> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return teamRepository.findByAdminId(userId, pageable).map(TeamDto::from);
+            return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsTrue(userId, pageable)
+                    .map(admission -> TeamDto.from(admission.getTeam()));
         } else {
             throw new NotEqualsException.UserAccount();
         }
