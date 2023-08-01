@@ -122,4 +122,23 @@ public class ExceptionAdvice {
                 .resultMessage(resultMessage)
                 .build();
     }
+
+    //409
+    @ExceptionHandler({
+            TeamJoinException.class,
+            TeamJoinException.AlreadyJoined.class,
+            TeamJoinException.AlreadyApplying.class
+    })
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseResult<Object> teamJoinException(TeamJoinException e) {
+        String resultMessage = e.getMessage();
+        if(e instanceof TeamJoinException.AlreadyJoined) resultMessage = "이미 가입된 팀입니다.";
+        if(e instanceof TeamJoinException.AlreadyApplying) resultMessage = "이미 가입 신청된 팀입니다.";
+        if(e instanceof TeamJoinException.FullCapacity) resultMessage = "더 이상 팀원을 추가할 수 없습니다.";
+
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.CONFLICT.value())
+                .resultMessage(resultMessage)
+                .build();
+    }
 }
