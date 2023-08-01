@@ -1,12 +1,15 @@
 package com.teammatching.demo.web.service;
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
+import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.entity.Admission;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.AdmissionRepository;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.NotEqualsException;
+import com.teammatching.demo.result.exception.NotFoundException;
 import com.teammatching.demo.result.exception.NullCheckException;
 import com.teammatching.demo.result.exception.TeamJoinException;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -70,4 +74,17 @@ public class AdmissionService {
         admissionRepository.save(request.toEntity(userAccount, team));
     }
 
+    public void approvalAdmission(Long teamId, String userId, String adminId) {
+        UserAccount approvalUserAccount = userAccountRepository.getReferenceById(userId);
+        Team approvalTeam = teamRepository.getReferenceById(teamId);
+        Admission admission = admissionRepository.findByUserAccountAndTeam(approvalUserAccount, approvalTeam)
+                .orElseThrow(NotFoundException.Admission::new);
+        if (approvalTeam.getAdminId().equals(adminId)) {
+            if(approvalTeam.getCapacity().equals(approvalTeam.getTotal())){
+                throw new TeamJoinException.FullCapacity();
+            }
+            admission.setApproval(true);
+            approvalTeam.setTotal(approvalTeam.getTotal() + 1);
+        }
+    }
 }
