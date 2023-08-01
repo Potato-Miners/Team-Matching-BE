@@ -6,4 +6,7 @@ public class TeamJoinException extends RuntimeException {
 
     public static class AlreadyJoined extends TeamJoinException {
     }
+
+    public static class FullCapacity extends TeamJoinException {
+    }
 }

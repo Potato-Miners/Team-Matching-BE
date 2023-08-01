@@ -83,4 +83,24 @@ public class AdmissionController {
                 .resultMessage(ResponseMessage.SUCCESS_APPLY_TEAM)
                 .build();
     }
+
+    @Operation(
+            summary = "팀 가입 승인",
+            description = "팀 가입 신청을 승인합니다."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/{userId}")
+    public ResponseResult<Object> approvalAdmission(
+            @PathVariable("teamId") Long teamId,
+            @PathVariable("userId") String userId,
+            @AuthenticationPrincipal Principal principal
+    ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
+        admissionService.approvalAdmission(teamId, userId, principal.toDto().userId());
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_APPROVAL_ADMISSION)
+                .build();
+    }
+
 }

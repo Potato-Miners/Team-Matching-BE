@@ -17,4 +17,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     Optional<Admission> findByUserAccountAndTeam(UserAccount userAccount, Team team);
 
+    Page<Admission> findAllByUserAccount_UserIdAndApprovalIsTrue(String userId, Pageable pageable);
+
 }

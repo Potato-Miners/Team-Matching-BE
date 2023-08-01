@@ -208,3 +208,5 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,macos,java
+
+ubuntu\@ec2-15-164-52-180.ap-northeast-2.compute.amazonaws.com

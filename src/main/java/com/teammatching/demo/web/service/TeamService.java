@@ -54,9 +54,9 @@ public class TeamService {
             if (request.name() != null) team.setName(request.name());
             if (request.category() != null) team.setCategory(request.category());
             if (request.hashtag() != null) team.setHashtag(request.hashtag());
-            if (request.total() != null) team.setTotal(request.total());
+            if (request.capacity() != null) team.setCapacity(request.capacity());
             team.setDescription(request.description());
-            team.setCapacity(request.capacity());
+            team.setDeadline(request.deadline());
         }
     }
 
