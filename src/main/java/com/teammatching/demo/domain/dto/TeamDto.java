@@ -85,6 +85,7 @@ public record TeamDto(
             String description,
             Category category,
             String hashtag,
+            Integer capacity,
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {
@@ -93,6 +94,8 @@ public record TeamDto(
                     .description(description)
                     .category(category)
                     .hashtag(hashtag)
+                    .capacity(capacity)
+                    .total(1)
                     .deadline(deadline)
                     .build();
         }
@@ -104,6 +107,7 @@ public record TeamDto(
             String description,
             Category category,
             String hashtag,
+            Integer capacity,
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {
@@ -112,6 +116,7 @@ public record TeamDto(
                     .description(description)
                     .category(category)
                     .hashtag(hashtag)
+                    .capacity(capacity)
                     .deadline(deadline)
                     .build();
         }
