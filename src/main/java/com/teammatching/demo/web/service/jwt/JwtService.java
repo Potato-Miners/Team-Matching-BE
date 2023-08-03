@@ -113,4 +113,10 @@ public class JwtService {
             return false;
         }
     }
+
+    public Long getExpiration(String accessToken) {
+        Date expiration = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getExpiresAt();
+        long now = new Date().getTime();
+        return expiration.getTime() - now;
+    }
 }
