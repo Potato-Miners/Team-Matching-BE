@@ -4,14 +4,19 @@ import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.AlreadyExistsException;
+import com.teammatching.demo.web.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -19,6 +24,8 @@ public class UserAccountService {
 
     private final UserAccountRepository userAccountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional(readOnly = true)
     public List<UserAccountDto> getUserAccounts() {
@@ -41,5 +48,15 @@ public class UserAccountService {
         UserAccount userAccount = request.toEntity();
         userAccount.passwordEncode(passwordEncoder);
         userAccountRepository.save(userAccount);
+    }
+
+    public void logout(String accessToken, String userId) {
+        log.info("로그아웃 로직 접근");
+        log.info("accessToken: {}", accessToken);
+        Long expiration = jwtService.getExpiration(accessToken);
+        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+        userAccountRepository.findById(userId)
+                .ifPresent(userAccount -> userAccount.setRefreshToken(null));
+        log.info("로그아웃 로직 완료");
     }
 }
