@@ -77,6 +77,13 @@ public record UserAccountDto(
     ) {
     }
 
+    @Schema(name = "UserAccountDto.LogoutRequest(유저 로그아웃 요청 Dto)")
+    public record LogoutRequest(
+            String userId,
+            String accessToken
+    ) {
+    }
+
     @Schema(name = "UserAccountDto.UpdateRequest(유저 수정 요청 Dto)")
     public record UpdateRequest(
             String email,
@@ -91,5 +98,7 @@ public record UserAccountDto(
                     .build();
         }
     }
+
+
 
 }

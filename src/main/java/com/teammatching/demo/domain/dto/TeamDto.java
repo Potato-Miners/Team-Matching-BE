@@ -1,10 +1,12 @@
 package com.teammatching.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.teammatching.demo.domain.Category;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -64,6 +66,8 @@ public record TeamDto(
             String name,
             Category category,
             String hashtag,
+
+            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape = JsonFormat.Shape.STRING)
             LocalDateTime deadline
     ) {
         public static SimpleResponse from(TeamDto dto) {
@@ -86,6 +90,8 @@ public record TeamDto(
             Category category,
             String hashtag,
             Integer capacity,
+
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {
@@ -108,6 +114,8 @@ public record TeamDto(
             Category category,
             String hashtag,
             Integer capacity,
+
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {

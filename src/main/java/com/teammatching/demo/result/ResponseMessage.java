@@ -34,6 +34,7 @@ public class ResponseMessage {
 
     //UserAccount
     public static final String SUCCESS_SIGN_UP = "회원 가입 요청 성공";
+    public static final String SUCCESS_LOGOUT = "로그아웃 요청 성공";
 
     //Admission
     public static final String SUCCESS_GET_SIMPLE_ADMISSION = "가입 신청자 리스트 조회 요청 성공";
