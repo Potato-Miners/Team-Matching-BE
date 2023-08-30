@@ -30,7 +30,7 @@ public class OpenApiConfig {
 
     private final ApplicationContext applicationContext;
 
-    private static final String DEFAULT_LOGIN_REQUEST_URL = "/login";
+    private static final String DEFAULT_LOGIN_REQUEST_URL = "/auth/login";
     private static final String USERNAME_KEY = "userId";
     private static final String PASSWORD_KEY = "userPassword";
 
