@@ -1,5 +1,6 @@
 package com.teammatching.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.teammatching.demo.domain.entity.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public record PostWithCommentDto(
         UserAccountDto userAccountDto,
         Set<CommentDto> commentDtos,
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -36,6 +38,7 @@ public record PostWithCommentDto(
                                 .map(CommentDto::from)
                                 .collect(Collectors.toCollection(LinkedHashSet::new))
                 )
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 }
