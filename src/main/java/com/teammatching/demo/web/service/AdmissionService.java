@@ -41,7 +41,7 @@ public class AdmissionService {
     @Transactional(readOnly = true)
     public Page<AdmissionDto> getSimpleAdmission(Long teamId, String adminId, Pageable pageable) {
         Team team = teamRepository.getReferenceById(teamId);
-        if (team.getAdminId().equals(adminId)) {
+        if (team.getAdminUserAccount().getUserId().equals(adminId)) {
             return admissionRepository.findByTeam_Id(teamId, pageable)
                     .map(AdmissionDto::from);
         } else {
@@ -52,7 +52,7 @@ public class AdmissionService {
     @Transactional(readOnly = true)
     public AdmissionDto getAdmissionByUserId(Long teamId, String userId, String adminId) {
         Team team = teamRepository.getReferenceById(teamId);
-        if (team.getAdminId().equals(adminId)) {
+        if (team.getAdminUserAccount().getUserId().equals(adminId)) {
             return AdmissionDto.from(admissionRepository.findByUserAccount_UserId(userId));
         } else {
             throw new NotEqualsException.TeamAdmin();
@@ -66,7 +66,7 @@ public class AdmissionService {
             throw new TeamJoinException.AlreadyApplying();
         }
 
-        if (team.getAdminId().equals(userAccount.getUserId())) {
+        if (team.getAdminUserAccount().getUserId().equals(userAccount.getUserId())) {
             throw new TeamJoinException.AlreadyJoined();
         }
 
@@ -79,7 +79,7 @@ public class AdmissionService {
         Team approvalTeam = teamRepository.getReferenceById(teamId);
         Admission admission = admissionRepository.findByUserAccountAndTeam(approvalUserAccount, approvalTeam)
                 .orElseThrow(NotFoundException.Admission::new);
-        if (approvalTeam.getAdminId().equals(adminId)) {
+        if (approvalTeam.getAdminUserAccount().getUserId().equals(adminId)) {
             if(approvalTeam.getCapacity().equals(approvalTeam.getTotal())){
                 throw new TeamJoinException.FullCapacity();
             }
