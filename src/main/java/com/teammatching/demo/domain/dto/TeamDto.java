@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 public record TeamDto(
         Long id,
-        String adminId,
         String name,
         String description,
         Category category,
@@ -22,6 +21,8 @@ public record TeamDto(
         Integer capacity,
         Integer total,
         LocalDateTime deadline,
+
+        UserAccountDto adminUserAccountDto,
 
         LocalDateTime createdAt,
         String createdBy,
@@ -38,6 +39,8 @@ public record TeamDto(
                 .hashtag(entity.getHashtag())
                 .capacity(entity.getCapacity())
                 .total(entity.getTotal())
+                .deadline(entity.getDeadline())
+                .adminUserAccountDto(UserAccountDto.from(entity.getAdminUserAccount()))
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
                 .modifiedAt(entity.getModifiedAt())
@@ -47,7 +50,7 @@ public record TeamDto(
 
     public Team toEntity(UserAccount userAccount) {
         return Team.builder()
-                .adminId(userAccount.getUserId())
+                .adminUserAccount(userAccount)
                 .name(name)
                 .description(description)
                 .category(category)
@@ -62,21 +65,25 @@ public record TeamDto(
     @Builder
     public record SimpleResponse(
             Long id,
-            String adminId,
+            UserAccountDto adminUserAccountDto,
             String name,
             Category category,
             String hashtag,
+            Integer capacity,
+            Integer total,
 
-            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape = JsonFormat.Shape.STRING)
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             LocalDateTime deadline
     ) {
         public static SimpleResponse from(TeamDto dto) {
             return SimpleResponse.builder()
                     .id(dto.id)
-                    .adminId(dto.adminId)
+                    .adminUserAccountDto(dto.adminUserAccountDto)
                     .name(dto.name)
                     .category(dto.category)
                     .hashtag(dto.hashtag)
+                    .capacity(dto.capacity)
+                    .total(dto.total)
                     .deadline(dto.deadline)
                     .build();
         }
@@ -91,7 +98,7 @@ public record TeamDto(
             String hashtag,
             Integer capacity,
 
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {
@@ -115,7 +122,7 @@ public record TeamDto(
             String hashtag,
             Integer capacity,
 
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             LocalDateTime deadline
     ) {
         public TeamDto toDto() {

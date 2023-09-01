@@ -61,6 +61,9 @@ public class UserAccount extends AuditingField {
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
     private final Set<Admission> admissions = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "adminUserAccount", cascade = CascadeType.ALL)
+    private final Set<Team> teams = new LinkedHashSet<>();
+
     @Builder
     private UserAccount(String userId, String userPassword, String email, String nickname, String memo, RoleType role, String refreshToken) {
         this.userId = userId;

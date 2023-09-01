@@ -6,8 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
-
-    Page<Team> findByAdminId(String userId, Pageable pageable);
-
-    void deleteByIdAndAdminId(Long teamId, String adminId);
+    void deleteByIdAndAdminUserAccount_UserId(Long teamId, String adminId);
 }
