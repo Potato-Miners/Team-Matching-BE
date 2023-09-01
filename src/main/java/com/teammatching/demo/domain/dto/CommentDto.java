@@ -1,5 +1,6 @@
 package com.teammatching.demo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.teammatching.demo.domain.entity.Comment;
 import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
@@ -16,6 +17,7 @@ public record CommentDto(
         Long postId,
         UserAccountDto userAccountDto,
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
