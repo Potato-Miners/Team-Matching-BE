@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/teamMonDB</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="TeamMonRDS" uuid="f3880504-4f07-41d4-9f32-308c03bf6973">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://teammon-rds.cuacofqmhrtd.ap-northeast-2.rds.amazonaws.com :3306/TeamMonDB</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
