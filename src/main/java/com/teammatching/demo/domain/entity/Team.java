@@ -26,10 +26,6 @@ public class Team extends AuditingField {
 
     @Setter
     @Column(nullable = false)
-    private String adminId;
-
-    @Setter
-    @Column(nullable = false)
     private String name;
 
     @Setter
@@ -55,14 +51,16 @@ public class Team extends AuditingField {
     @Setter
     private LocalDateTime deadline;
 
+    @Setter
+    @ManyToOne(optional = false)
+    private UserAccount adminUserAccount;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private final Set<Admission> admissions = new LinkedHashSet<>();
 
     @Builder
-    private Team(String adminId, String name, String description, Category category, String hashtag, Integer capacity, Integer total, LocalDateTime deadline) {
-        this.adminId = adminId;
+    private Team(String name, String description, Category category, String hashtag, Integer capacity, Integer total, LocalDateTime deadline, UserAccount adminUserAccount) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -70,5 +68,6 @@ public class Team extends AuditingField {
         this.capacity = capacity;
         this.total = total;
         this.deadline = deadline;
+        this.adminUserAccount = adminUserAccount;
     }
 }
