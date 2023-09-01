@@ -38,6 +38,7 @@ public class Post extends AuditingField {
     @ManyToOne(optional = false)
     private UserAccount userAccount;
 
+    @OrderBy("createdAt DESC")
     @ToString.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private final Set<Comment> comments = new LinkedHashSet<>();
