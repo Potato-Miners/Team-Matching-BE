@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.team-matching'
-version = '0.6'
+version = '0.7'
 
 java {
 	sourceCompatibility = '17'
