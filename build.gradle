@@ -8,7 +8,7 @@ group = 'com.team-matching'
 version = '0.7'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '20'
 }
 
 configurations {
