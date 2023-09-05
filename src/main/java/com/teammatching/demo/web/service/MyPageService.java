@@ -22,7 +22,6 @@ public class MyPageService {
     private final UserAccountRepository userAccountRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final TeamRepository teamRepository;
     private final AdmissionRepository admissionRepository;
 
     @Transactional(readOnly = true)
@@ -71,8 +70,20 @@ public class MyPageService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Page<TeamDto> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable pageable) {
+        if (userId.equals(authenticatedUserId)) {
+            return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsFalse(userId, pageable)
+                    .map(admission -> TeamDto.from(admission.getTeam()));
+        } else {
+            throw new NotEqualsException.UserAccount();
+        }
+    }
+
     private UserAccount findUserAccountById(String userId) {
         return userAccountRepository.findById(userId)
                 .orElseThrow(NotFoundException.UserAccount::new);
     }
+
+
 }
