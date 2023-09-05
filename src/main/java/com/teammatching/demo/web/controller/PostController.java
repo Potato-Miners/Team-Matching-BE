@@ -2,7 +2,6 @@ package com.teammatching.demo.web.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.PostWithCommentDto;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
@@ -48,13 +47,13 @@ public class PostController {
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{postId}")
-    public ResponseResult<PostWithCommentDto> getPostById(
+    public ResponseResult<PostDto.DetailResponse> getPostById(
             @PathVariable("postId") Long postId
     ) {
-        return ResponseResult.<PostWithCommentDto>builder()
+        return ResponseResult.<PostDto.DetailResponse>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_POST_BY_ID)
-                .resultData(postService.getPostById(postId))
+                .resultData(PostDto.DetailResponse.from(postService.getPostById(postId)))
                 .build();
     }
 

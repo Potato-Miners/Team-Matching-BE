@@ -1,7 +1,6 @@
 package com.teammatching.demo.web.service;
 
 import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.PostWithCommentDto;
 import com.teammatching.demo.domain.entity.Post;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.PostRepository;
@@ -38,8 +37,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostWithCommentDto getPostById(Long postId) {
-        return PostWithCommentDto.from(findPostById(postId));
+    public PostDto getPostById(Long postId) {
+        return PostDto.from(findPostById(postId));
     }
 
     public void createPost(PostDto request) {
