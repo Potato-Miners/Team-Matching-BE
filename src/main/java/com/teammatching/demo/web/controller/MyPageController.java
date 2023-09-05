@@ -99,7 +99,7 @@ public class MyPageController {
 
     @Operation(
             summary = "마이페이지 팀 조회",
-            description = "유저가 작성한 팀 리스트를 제공합니다."
+            description = "유저가 속한 팀 리스트를 제공합니다."
     )
     @GetMapping("/teams")
     public ResponseResult<Page<TeamDto.SimpleResponse>> getMyTeams(
@@ -112,6 +112,25 @@ public class MyPageController {
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
                 .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
+                        .map(TeamDto.SimpleResponse::from))
+                .build();
+    }
+
+    @Operation(
+            summary = "마이페이지 신청 중인 팀 조회",
+            description = "유저가 신청중인(가입이 되지 않은) 팀 리스트를 제공합니다."
+    )
+    @GetMapping("/teams")
+    public ResponseResult<Page<TeamDto.SimpleResponse>> getMyJudgingTeams(
+            @PathVariable("userId") String userId,
+            @AuthenticationPrincipal Principal principal,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
+        return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
+                .resultData(myPageService.getMyJudgingTeams(userId, principal.userId(), pageable)
                         .map(TeamDto.SimpleResponse::from))
                 .build();
     }
