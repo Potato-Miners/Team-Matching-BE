@@ -73,7 +73,10 @@ public record TeamDto(
             Integer total,
 
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-            LocalDateTime deadline
+            LocalDateTime deadline,
+
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            LocalDateTime createdAt
     ) {
         public static SimpleResponse from(TeamDto dto) {
             return SimpleResponse.builder()
