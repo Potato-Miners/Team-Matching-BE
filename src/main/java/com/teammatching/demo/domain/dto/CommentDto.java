@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public record CommentDto(
         Long id,
         String content,
-        Long postId,
+        PostDto postDto,
         UserAccountDto userAccountDto,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -28,7 +28,7 @@ public record CommentDto(
         return CommentDto.builder()
                 .id(entity.getId())
                 .content(entity.getContent())
-                .postId(entity.getPost().getId())
+                .postDto(PostDto.from(entity.getPost()))
                 .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -49,23 +49,21 @@ public record CommentDto(
     public record CreateRequest(
             String content
     ) {
-        public CommentDto toDto(Long postId, UserAccountDto userAccountDto) {
+        public CommentDto toDto(UserAccountDto userAccountDto) {
             return CommentDto.builder()
                     .content(content)
-                    .postId(postId)
                     .userAccountDto(userAccountDto)
                     .build();
         }
     }
 
-    @Schema(name = "CommentDto.UpdateRequest",description = "댓글 수정 요청 Dto")
+    @Schema(name = "CommentDto.UpdateRequest", description = "댓글 수정 요청 Dto")
     public record UpdateRequest(
             String content
     ) {
-        public CommentDto toDto(Long postId, UserAccountDto userAccountDto) {
+        public CommentDto toDto(UserAccountDto userAccountDto) {
             return CommentDto.builder()
                     .content(content)
-                    .postId(postId)
                     .userAccountDto(userAccountDto)
                     .build();
         }
@@ -76,13 +74,17 @@ public record CommentDto(
     public record SimpleResponse(
             Long id,
             String content,
-            Long postId
+            PostDto.SimpleResponse postSimpleDto,
+
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+            LocalDateTime createdAt
     ) {
         public static SimpleResponse from(CommentDto dto) {
             return SimpleResponse.builder()
                     .id(dto.id)
                     .content(dto.content)
-                    .postId(dto.postId())
+                    .postSimpleDto(PostDto.SimpleResponse.from(dto.postDto))
+                    .createdAt(dto.createdAt)
                     .build();
         }
     }
