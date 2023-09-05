@@ -17,8 +17,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  secrets:
+    environment: teammon
     runs-on: ubuntu-latest
 
     steps:
