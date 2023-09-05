@@ -33,7 +33,7 @@ public class TeamController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResponseResult<Page<TeamDto.SimpleResponse>> getSimpleTeams(
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 9, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
