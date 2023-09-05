@@ -33,9 +33,9 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
-    public void createComment(CommentDto request) {
+    public void createComment(Long postId, CommentDto request) {
         UserAccount userAccount = userAccountRepository.getReferenceById(request.userAccountDto().userId());
-        Post post = postRepository.getReferenceById(request.postId());
+        Post post = postRepository.getReferenceById(postId);
         if (request.content() == null) throw new NullCheckException("Comment.content");
         commentRepository.save(request.toEntity(post, userAccount));
     }

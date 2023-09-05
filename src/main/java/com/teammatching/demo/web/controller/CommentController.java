@@ -33,7 +33,7 @@ public class CommentController {
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        commentService.createComment(request.toDto(postId, principal.toDto()));
+        commentService.createComment(postId, request.toDto(principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_CREATE_COMMENT)
@@ -53,7 +53,7 @@ public class CommentController {
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        commentService.updateComment(commentId, request.toDto(postId, principal.toDto()));
+        commentService.updateComment(commentId, request.toDto(principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_COMMENT)
