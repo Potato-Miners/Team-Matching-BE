@@ -46,12 +46,12 @@ public record AdmissionDto(
     @Builder
     public record SimpleResponse(
             Long id,
-            String userId
+            UserAccountDto userAccountDto
     ) {
         public static SimpleResponse from(AdmissionDto dto) {
             return SimpleResponse.builder()
                     .id(dto.id)
-                    .userId(dto.userAccountDto().userId())
+                    .userAccountDto(dto.userAccountDto)
                     .build();
         }
     }
