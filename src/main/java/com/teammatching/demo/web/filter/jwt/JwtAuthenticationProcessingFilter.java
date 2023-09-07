@@ -1,6 +1,5 @@
 package com.teammatching.demo.web.filter.jwt;
 
-import com.sun.xml.bind.v2.model.runtime.RuntimeTypeInfoSet;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
