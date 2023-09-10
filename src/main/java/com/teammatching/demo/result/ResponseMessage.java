@@ -41,4 +41,6 @@ public class ResponseMessage {
     public static final String SUCCESS_GET_ADMISSION_BY_USER_ID = "가입 신청 내용 상세 조회 요청 성공";
     public static final String SUCCESS_APPLY_TEAM = "가입 신청 요청 성공";
     public static final String SUCCESS_APPROVAL_ADMISSION = "가입 신청 승인 성공";
+    public static final String SUCCESS_CANCEL_ADMISSION = "가입 신청 거절/취소 성공";
+
 }

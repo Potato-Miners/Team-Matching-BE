@@ -19,4 +19,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     Page<Admission> findAllByUserAccount_UserIdAndApprovalIsTrue(String userId, Pageable pageable);
 
+    Page<Admission> findAllByUserAccount_UserIdAndApprovalIsFalse(String userId, Pageable pageable);
+
 }

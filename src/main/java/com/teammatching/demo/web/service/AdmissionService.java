@@ -80,11 +80,26 @@ public class AdmissionService {
         Admission admission = admissionRepository.findByUserAccountAndTeam(approvalUserAccount, approvalTeam)
                 .orElseThrow(NotFoundException.Admission::new);
         if (approvalTeam.getAdminUserAccount().getUserId().equals(adminId)) {
-            if(approvalTeam.getCapacity().equals(approvalTeam.getTotal())){
+            if (approvalTeam.getCapacity().equals(approvalTeam.getTotal())) {
                 throw new TeamJoinException.FullCapacity();
             }
             admission.setApproval(true);
             approvalTeam.setTotal(approvalTeam.getTotal() + 1);
+        } else {
+            throw new NotFoundException.UserAccount();
+        }
+    }
+
+    public void cancelAdmission(Long teamId, String userId, String adminId) {
+        UserAccount cancelUserAccount = userAccountRepository.getReferenceById(userId);
+        Team cancelTeam = teamRepository.getReferenceById(teamId);
+        Admission admission = admissionRepository.findByUserAccountAndTeam(cancelUserAccount, cancelTeam)
+                .orElseThrow(NotFoundException.Admission::new);
+        if (cancelTeam.getAdminUserAccount().getUserId().equals(adminId)
+                || userId.equals(adminId)) {
+            admissionRepository.deleteById(admission.getId());
+        } else {
+            throw new NotFoundException.UserAccount();
         }
     }
 }

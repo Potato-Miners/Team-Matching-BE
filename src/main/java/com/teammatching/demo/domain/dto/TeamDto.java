@@ -88,6 +88,7 @@ public record TeamDto(
                     .capacity(dto.capacity)
                     .total(dto.total)
                     .deadline(dto.deadline)
+                    .createdAt(dto.createdAt)
                     .build();
         }
 
