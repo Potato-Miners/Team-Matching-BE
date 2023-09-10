@@ -84,21 +84,28 @@ public record UserAccountDto(
     ) {
     }
 
-    @Schema(name = "UserAccountDto.UpdateRequest(유저 수정 요청 Dto)")
-    public record UpdateRequest(
-            String email,
+    @Schema(name = "UserAccountDto.UpdateInfoRequest(유저 정보 수정 요청 Dto)")
+    public record UpdateInfoRequest(
             String nickname,
             String memo
     ) {
         public UserAccountDto toDto() {
             return UserAccountDto.builder()
-                    .email(email)
                     .nickname(nickname)
                     .memo(memo)
                     .build();
         }
     }
 
-
-
+    @Schema(name = "UserAccountDto.UpdatePasswordRequest(유저 비밀번호 수정 요청 Dto)")
+    public record UpdatePasswordRequest(
+            String password,
+            String passwordCheck
+    ) {
+        public UserAccountDto toDto() {
+            return UserAccountDto.builder()
+                    .userPassword(password)
+                    .build();
+        }
+    }
 }
