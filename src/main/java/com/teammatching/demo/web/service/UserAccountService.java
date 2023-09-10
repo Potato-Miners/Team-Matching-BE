@@ -4,6 +4,7 @@ import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.AlreadyExistsException;
+import com.teammatching.demo.result.exception.NotFoundException;
 import com.teammatching.demo.web.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,15 @@ public class UserAccountService {
         UserAccount userAccount = request.toEntity();
         userAccount.passwordEncode(passwordEncoder);
         userAccountRepository.save(userAccount);
+    }
+
+    public void updatePassword(String userId, UserAccountDto.UpdatePasswordRequest request, String authenticatedUserId) {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(NotFoundException.UserAccount::new);
+        if (userId.equals(authenticatedUserId)
+                && request.password().equals(request.passwordCheck())) {
+            userAccount.setUserPassword(passwordEncoder.encode(request.password()));
+        }
     }
 
     public void logout(String accessToken, String userId) {
