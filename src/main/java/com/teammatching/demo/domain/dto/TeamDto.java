@@ -103,10 +103,7 @@ public record TeamDto(
             Integer capacity,
 
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-            LocalDateTime deadline,
-
-            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-            LocalDateTime createdAt
+            LocalDateTime deadline
     ) {
         public TeamDto toDto() {
             return TeamDto.builder()
@@ -117,7 +114,6 @@ public record TeamDto(
                     .capacity(capacity)
                     .total(1)
                     .deadline(deadline)
-                    .createdAt(createdAt)
                     .build();
         }
     }
