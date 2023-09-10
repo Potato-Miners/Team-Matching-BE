@@ -47,7 +47,7 @@ public class MyPageController {
             summary = "마이페이지 닉네임/메모 수정",
             description = "요청받은 유저의 정보(닉네임/메모)를 수정합니다."
     )
-    @PatchMapping
+    @PatchMapping("/info")
     public ResponseResult<Object> updateAccount(
             @PathVariable("userId") String userId,
             @RequestBody UserAccountDto.UpdateInfoRequest request,
@@ -65,7 +65,7 @@ public class MyPageController {
             summary = "마이페이지 비밀번호 수정",
             description = "요청받은 유저의 비밀번호를 수정합니다."
     )
-    @PatchMapping
+    @PatchMapping("/password")
     public ResponseResult<Object> updatePassword(
             @PathVariable("userId") String userId,
             @RequestBody UserAccountDto.UpdatePasswordRequest request,
@@ -140,7 +140,7 @@ public class MyPageController {
             summary = "마이페이지 신청 중인 팀 조회",
             description = "유저가 신청중인(가입이 되지 않은) 팀 리스트를 제공합니다."
     )
-    @GetMapping("/teams")
+    @GetMapping("/teams/judging")
     public ResponseResult<Page<TeamDto.SimpleResponse>> getMyJudgingTeams(
             @PathVariable("userId") String userId,
             @AuthenticationPrincipal Principal principal,
