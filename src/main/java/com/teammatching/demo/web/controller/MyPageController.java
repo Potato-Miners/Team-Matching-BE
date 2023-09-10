@@ -5,6 +5,7 @@ import com.teammatching.demo.domain.dto.*;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.MyPageService;
+import com.teammatching.demo.web.service.UserAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class MyPageController {
 
     private final MyPageService myPageService;
+    private final UserAccountService userAccountService;
 
     @Operation(
             summary = "마이페이지 조회",
@@ -42,17 +44,35 @@ public class MyPageController {
     }
 
     @Operation(
-            summary = "마이페이지 수정",
-            description = "요청받은 유저의 정보를 수정합니다."
+            summary = "마이페이지 닉네임/메모 수정",
+            description = "요청받은 유저의 정보(닉네임/메모)를 수정합니다."
     )
     @PatchMapping
     public ResponseResult<Object> updateAccount(
             @PathVariable("userId") String userId,
-            @RequestBody UserAccountDto.UpdateRequest request,
+            @RequestBody UserAccountDto.UpdateInfoRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        myPageService.updateAccount(userId, request.toDto(), principal.userId());
+        myPageService.updateAccountInfo(userId, request.toDto(), principal.userId());
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_UPDATE_ACCOUNT)
+                .build();
+    }
+
+    @Operation(
+            summary = "마이페이지 비밀번호 수정",
+            description = "요청받은 유저의 비밀번호를 수정합니다."
+    )
+    @PatchMapping
+    public ResponseResult<Object> updatePassword(
+            @PathVariable("userId") String userId,
+            @RequestBody UserAccountDto.UpdatePasswordRequest request,
+            @AuthenticationPrincipal Principal principal
+    ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
+        userAccountService.updatePassword(userId, request, principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_UPDATE_ACCOUNT)
