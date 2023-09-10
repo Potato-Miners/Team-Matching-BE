@@ -33,7 +33,7 @@ public class MyPageService {
         }
     }
 
-    public void updateAccount(String userId, UserAccountDto request, String authenticatedUserId) {
+    public void updateAccountInfo(String userId, UserAccountDto request, String authenticatedUserId) {
         UserAccount userAccount = findUserAccountById(userId);
         if (userId.equals(authenticatedUserId)) {
             userAccount.setNickname(request.nickname());
