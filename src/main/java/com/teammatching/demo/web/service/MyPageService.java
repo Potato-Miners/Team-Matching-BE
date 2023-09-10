@@ -36,7 +36,6 @@ public class MyPageService {
     public void updateAccount(String userId, UserAccountDto request, String authenticatedUserId) {
         UserAccount userAccount = findUserAccountById(userId);
         if (userId.equals(authenticatedUserId)) {
-            userAccount.setEmail(request.email());
             userAccount.setNickname(request.nickname());
             userAccount.setMemo(request.memo());
         }
