@@ -70,6 +70,8 @@ public record PostDto(
                     .title(entity.getTitle())
                     .hashtag(entity.getHashtag())
                     .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
+                    .commentsCount(entity.getComments().size())
+                    .createdAt(entity.getCreatedAt())
                     .build();
         }
     }
