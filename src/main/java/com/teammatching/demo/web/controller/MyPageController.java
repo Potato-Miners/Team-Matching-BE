@@ -93,8 +93,7 @@ public class MyPageController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_POSTS)
-                .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable)
-                        .map(PostDto.SimpleResponse::from))
+                .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable))
                 .build();
     }
 
@@ -112,8 +111,7 @@ public class MyPageController {
         return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_COMMENTS)
-                .resultData(myPageService.getMyComments(userId, principal.userId(), pageable)
-                        .map(CommentDto.SimpleResponse::from))
+                .resultData(myPageService.getMyComments(userId, principal.userId(), pageable))
                 .build();
     }
 
@@ -131,8 +129,7 @@ public class MyPageController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
-                .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
-                        .map(TeamDto.SimpleResponse::from))
+                .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable))
                 .build();
     }
 
@@ -150,8 +147,7 @@ public class MyPageController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
-                .resultData(myPageService.getMyJudgingTeams(userId, principal.userId(), pageable)
-                        .map(TeamDto.SimpleResponse::from))
+                .resultData(myPageService.getMyJudgingTeams(userId, principal.userId(), pageable))
                 .build();
     }
 }

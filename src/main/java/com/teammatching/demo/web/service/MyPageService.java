@@ -42,38 +42,38 @@ public class MyPageService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto> getMyPosts(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<PostDto.SimpleResponse> getMyPosts(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto::from);
+            return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto.SimpleResponse::from);
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<CommentDto> getMyComments(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<CommentDto.SimpleResponse> getMyComments(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentDto::from);
+            return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentDto.SimpleResponse::from);
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<TeamDto.SimpleResponse> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
             return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsTrue(userId, pageable)
-                    .map(admission -> TeamDto.from(admission.getTeam()));
+                    .map(admission -> TeamDto.SimpleResponse.from(admission.getTeam()));
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<TeamDto.SimpleResponse> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
             return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsFalse(userId, pageable)
-                    .map(admission -> TeamDto.from(admission.getTeam()));
+                    .map(admission -> TeamDto.SimpleResponse.from(admission.getTeam()));
         } else {
             throw new NotEqualsException.UserAccount();
         }
@@ -83,6 +83,4 @@ public class MyPageService {
         return userAccountRepository.findById(userId)
                 .orElseThrow(NotFoundException.UserAccount::new);
     }
-
-
 }

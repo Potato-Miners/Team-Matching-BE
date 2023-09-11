@@ -48,15 +48,15 @@ public record AdmissionDto(
             Long id,
             UserAccountDto userAccountDto
     ) {
-        public static SimpleResponse from(AdmissionDto dto) {
+        public static SimpleResponse from(Admission entity) {
             return SimpleResponse.builder()
-                    .id(dto.id)
-                    .userAccountDto(dto.userAccountDto)
+                    .id(entity.getId())
+                    .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
                     .build();
         }
     }
 
-    @Schema(name = "AdmissionDto.CreateResponse(가입 신청 생성 요청 Dto)")
+    @Schema(name = "AdmissionDto.CreateRequest(가입 신청 생성 요청 Dto)")
     public record CreateRequest(
             String application
     ) {

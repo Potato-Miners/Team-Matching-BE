@@ -37,23 +37,23 @@ public class PostController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
-                .resultData(postService.getSimplePosts(pageable).map(PostDto.SimpleResponse::from))
+                .resultData(postService.getSimplePosts(pageable))
                 .build();
     }
 
     @Operation(
-            summary = "단일 게시글 상세 조회(댓글도 함께)",
+            summary = "단일 게시글 상세 조회",
             description = "단일 게시글에 대한 상세 정보를 댓글과 함께 제공합니다."
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{postId}")
-    public ResponseResult<PostDto.DetailResponse> getPostById(
+    public ResponseResult<PostDto> getPostById(
             @PathVariable("postId") Long postId
     ) {
-        return ResponseResult.<PostDto.DetailResponse>builder()
+        return ResponseResult.<PostDto>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_POST_BY_ID)
-                .resultData(PostDto.DetailResponse.from(postService.getPostById(postId)))
+                .resultData(postService.getPostById(postId))
                 .build();
     }
 
