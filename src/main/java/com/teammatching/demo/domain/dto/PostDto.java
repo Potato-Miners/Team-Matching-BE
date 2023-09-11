@@ -60,46 +60,16 @@ public record PostDto(
             Long id,
             String title,
             String hashtag,
-            String userId,
-            String nickname,
+            UserAccountDto userAccountDto,
             Integer commentsCount,
             LocalDateTime createdAt
     ) {
-        public static SimpleResponse from(PostDto dto) {
+        public static SimpleResponse from(Post entity) {
             return SimpleResponse.builder()
-                    .id(dto.id)
-                    .title(dto.title)
-                    .hashtag(dto.hashtag)
-                    .userId(dto.userAccountDto().userId())
-                    .nickname(dto.userAccountDto.nickname())
-                    .commentsCount(dto.commentDtos.size())
-                    .createdAt(dto.createdAt)
-                    .build();
-        }
-    }
-
-    @Schema(name = "PostDto.DetailResponse(게시물 상세 응답 Dto)")
-    @Builder
-    public record DetailResponse(
-            Long id,
-            String title,
-            String content,
-            String hashtag,
-            UserAccountDto userAccountDto,
-            Set<CommentDto> commentDtos,
-            String nickname,
-
-            LocalDateTime createdAt
-    ) {
-        public static DetailResponse from(PostDto dto) {
-            return DetailResponse.builder()
-                    .id(dto.id)
-                    .title(dto.title)
-                    .content(dto.content)
-                    .hashtag(dto.hashtag)
-                    .userAccountDto(dto.userAccountDto)
-                    .commentDtos(dto.commentDtos)
-                    .createdAt(dto.createdAt)
+                    .id(entity.getId())
+                    .title(entity.getTitle())
+                    .hashtag(entity.getHashtag())
+                    .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
                     .build();
         }
     }

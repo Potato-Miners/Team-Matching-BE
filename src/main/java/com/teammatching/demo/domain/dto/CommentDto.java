@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public record CommentDto(
         Long id,
         String content,
-        PostDto postDto,
+        Long postId,
         UserAccountDto userAccountDto,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -28,7 +28,7 @@ public record CommentDto(
         return CommentDto.builder()
                 .id(entity.getId())
                 .content(entity.getContent())
-                .postDto(PostDto.from(entity.getPost()))
+                .postId(entity.getPost().getId())
                 .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -69,7 +69,7 @@ public record CommentDto(
         }
     }
 
-    @Schema(name = "CommentDto.SimpleResponse(댓글 간단 응답 Dto)")
+    @Schema(name = "CommentDto.SimpleResponse(간단 댓글 응답 Dto)")
     @Builder
     public record SimpleResponse(
             Long id,
@@ -79,12 +79,11 @@ public record CommentDto(
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             LocalDateTime createdAt
     ) {
-        public static SimpleResponse from(CommentDto dto) {
+        public static SimpleResponse from(Comment entity) {
             return SimpleResponse.builder()
-                    .id(dto.id)
-                    .content(dto.content)
-                    .postSimpleDto(PostDto.SimpleResponse.from(dto.postDto))
-                    .createdAt(dto.createdAt)
+                    .id(entity.getId())
+                    .content(entity.getContent())
+                    .postSimpleDto(PostDto.SimpleResponse.from(entity.getPost()))
                     .build();
         }
     }

@@ -78,17 +78,17 @@ public record TeamDto(
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
             LocalDateTime createdAt
     ) {
-        public static SimpleResponse from(TeamDto dto) {
+        public static SimpleResponse from(Team entity) {
             return SimpleResponse.builder()
-                    .id(dto.id)
-                    .adminUserAccountDto(dto.adminUserAccountDto)
-                    .name(dto.name)
-                    .category(dto.category)
-                    .hashtag(dto.hashtag)
-                    .capacity(dto.capacity)
-                    .total(dto.total)
-                    .deadline(dto.deadline)
-                    .createdAt(dto.createdAt)
+                    .id(entity.getId())
+                    .adminUserAccountDto(UserAccountDto.from(entity.getAdminUserAccount()))
+                    .name(entity.getName())
+                    .capacity(entity.getCapacity())
+                    .hashtag(entity.getHashtag())
+                    .capacity(entity.getCapacity())
+                    .total(entity.getTotal())
+                    .deadline(entity.getDeadline())
+                    .createdAt(entity.getCreatedAt())
                     .build();
         }
 
