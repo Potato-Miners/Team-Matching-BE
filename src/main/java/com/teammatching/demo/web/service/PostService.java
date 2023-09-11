@@ -32,8 +32,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto> getSimplePosts(Pageable pageable) {
-        return postRepository.findAll(pageable).map(PostDto::from);
+    public Page<PostDto.SimpleResponse> getSimplePosts(Pageable pageable) {
+        return postRepository.findAll(pageable).map(PostDto.SimpleResponse::from);
     }
 
     @Transactional(readOnly = true)

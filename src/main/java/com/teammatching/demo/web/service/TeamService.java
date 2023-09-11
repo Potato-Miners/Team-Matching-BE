@@ -34,9 +34,8 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto> getSimpleTeams(Pageable pageable) {
-
-        return teamRepository.findAll(pageable).map(TeamDto::from);
+    public Page<TeamDto.SimpleResponse> getSimpleTeams(Pageable pageable) {
+        return teamRepository.findAll(pageable).map(TeamDto.SimpleResponse::from);
     }
 
     public void createTeam(TeamDto request, String userId) {
