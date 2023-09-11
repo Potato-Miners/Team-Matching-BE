@@ -38,7 +38,7 @@ public class TeamController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_TEAMS)
-                .resultData(teamService.getSimpleTeams(pageable).map(TeamDto.SimpleResponse::from))
+                .resultData(teamService.getSimpleTeams(pageable))
                 .build();
     }
 
