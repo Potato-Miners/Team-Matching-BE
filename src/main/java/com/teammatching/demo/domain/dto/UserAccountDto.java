@@ -108,4 +108,15 @@ public record UserAccountDto(
                     .build();
         }
     }
+
+    @Schema(name = "UserAccountDto.ValidPasswordRequest(유저 비밀번호 검증 요청 Dto)")
+    public record ValidPasswordRequest(
+            String password
+    ) {
+        public UserAccountDto toDto() {
+            return UserAccountDto.builder()
+                    .userPassword(password)
+                    .build();
+        }
+    }
 }
