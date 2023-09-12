@@ -62,6 +62,24 @@ public class MyPageController {
     }
 
     @Operation(
+            summary = "마이페이지 비밀번호 검증",
+            description = "요청받은 유저의 비밀번호를 검증합니다."
+    )
+    @PostMapping("/password")
+    public ResponseResult<Object> checkPassword(
+            @PathVariable("userId") String userId,
+            @RequestBody UserAccountDto.ValidPasswordRequest request,
+            @AuthenticationPrincipal Principal principal
+    ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
+        userAccountService.checkPassword(userId, request.password(), principal.userId());
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_PASSWORD_CHECK)
+                .build();
+    }
+
+    @Operation(
             summary = "마이페이지 비밀번호 수정",
             description = "요청받은 유저의 비밀번호를 수정합니다."
     )
@@ -75,7 +93,7 @@ public class MyPageController {
         userAccountService.updatePassword(userId, request, principal.userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
-                .resultMessage(ResponseMessage.SUCCESS_UPDATE_ACCOUNT)
+                .resultMessage(ResponseMessage.SUCCESS_PASSWORD_UPDATE)
                 .build();
     }
 

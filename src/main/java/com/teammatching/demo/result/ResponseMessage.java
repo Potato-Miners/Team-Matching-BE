@@ -43,4 +43,8 @@ public class ResponseMessage {
     public static final String SUCCESS_APPROVAL_ADMISSION = "가입 신청 승인 성공";
     public static final String SUCCESS_CANCEL_ADMISSION = "가입 신청 거절/취소 성공";
 
+    //Password
+    public static final String SUCCESS_PASSWORD_CHECK = "비밀번호 검증 성공";
+    public static final String SUCCESS_PASSWORD_UPDATE = "비밀번호 검증 성공";
+
 }

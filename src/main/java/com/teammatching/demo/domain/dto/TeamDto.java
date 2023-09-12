@@ -83,7 +83,7 @@ public record TeamDto(
                     .id(entity.getId())
                     .adminUserAccountDto(UserAccountDto.from(entity.getAdminUserAccount()))
                     .name(entity.getName())
-                    .capacity(entity.getCapacity())
+                    .category(entity.getCategory())
                     .hashtag(entity.getHashtag())
                     .capacity(entity.getCapacity())
                     .total(entity.getTotal())
