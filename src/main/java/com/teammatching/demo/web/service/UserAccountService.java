@@ -4,6 +4,7 @@ import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.AlreadyExistsException;
+import com.teammatching.demo.result.exception.NotEqualsException;
 import com.teammatching.demo.result.exception.NotFoundException;
 import com.teammatching.demo.web.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -54,9 +55,26 @@ public class UserAccountService {
     public void updatePassword(String userId, UserAccountDto.UpdatePasswordRequest request, String authenticatedUserId) {
         UserAccount userAccount = userAccountRepository.findById(userId)
                 .orElseThrow(NotFoundException.UserAccount::new);
-        if (userId.equals(authenticatedUserId)
-                && request.password().equals(request.passwordCheck())) {
-            userAccount.setUserPassword(passwordEncoder.encode(request.password()));
+        if (!userId.equals(authenticatedUserId)) {
+            throw new NotEqualsException.UserAccount();
+        } else {
+            if (!request.password().equals(request.passwordCheck())) {
+                throw new NotEqualsException.Password();
+            } else {
+                userAccount.setUserPassword(passwordEncoder.encode(request.password()));
+            }
+        }
+    }
+
+    public void checkPassword(String userId, String request, String authenticatedUserId) {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(NotFoundException.UserAccount::new);
+        if (!userId.equals(authenticatedUserId)) {
+            throw new NotEqualsException.UserAccount();
+        } else {
+            if (!passwordEncoder.matches(request, userAccount.getUserPassword())) {
+                throw new NotEqualsException.PasswordValid();
+            }
         }
     }
 
