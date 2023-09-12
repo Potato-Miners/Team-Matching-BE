@@ -55,6 +55,26 @@ public class ExceptionAdvice {
     }
 
     //401
+    @ExceptionHandler(NotEqualsException.Password.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseResult<Object> teamAdminNotEqualsException(NotEqualsException.Password e) {
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.UNAUTHORIZED.value())
+                .resultMessage("비밀번호와 비밀번호 확인이 다릅니다.")
+                .build();
+    }
+
+    //401
+    @ExceptionHandler(NotEqualsException.PasswordValid.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseResult<Object> teamAdminNotEqualsException(NotEqualsException.PasswordValid e) {
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.UNAUTHORIZED.value())
+                .resultMessage("비밀번호가 틀립니다.")
+                .build();
+    }
+
+    //401
     @ExceptionHandler(NullTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseResult<Object> nullTokenException(NullTokenException e) {
