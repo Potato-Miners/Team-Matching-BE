@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
+
 @Tag(name = "게시글 API", description = "게시글 도메인 관련 API")
 @RequiredArgsConstructor
 @RequestMapping("/posts")
@@ -37,9 +40,27 @@ public class PostController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
-                .resultData(postService.getSimplePosts(pageable))
+                .resultData(postService.getSimplePosts(pageable).map(PostDto.SimpleResponse::from))
                 .build();
     }
+
+    @Operation(
+            summary = "검색어를 포함한 게시글 리스트 간단 조회",
+            description = "검색어를 포함한 간단한 게시글 정보 리스트를 제공합니다."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{keyword}")
+    public ResponseResult<Page<PostDto.SimpleResponse>> getSearchPosts(
+            @PathVariable("keyword") String keyword,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
+                .resultData(postService.getSearchPosts(keyword, pageable).map(PostDto.SimpleResponse::from))
+                .build();
+    }
+
 
     @Operation(
             summary = "단일 게시글 상세 조회",
