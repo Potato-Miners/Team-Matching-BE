@@ -39,11 +39,11 @@ public class AdmissionService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AdmissionDto.SimpleResponse> getSimpleAdmission(Long teamId, String adminId, Pageable pageable) {
+    public Page<AdmissionDto> getSimpleAdmission(Long teamId, String adminId, Pageable pageable) {
         Team team = teamRepository.getReferenceById(teamId);
         if (team.getAdminUserAccount().getUserId().equals(adminId)) {
             return admissionRepository.findByTeam_Id(teamId, pageable)
-                    .map(AdmissionDto.SimpleResponse::from);
+                    .map(AdmissionDto::from);
         } else {
             throw new NotEqualsException.TeamAdmin();
         }

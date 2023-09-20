@@ -41,7 +41,8 @@ public class AdmissionController {
         return ResponseResult.<Page<AdmissionDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_ADMISSION)
-                .resultData(admissionService.getSimpleAdmission(teamId, principal.userId(), pageable))
+                .resultData(admissionService.getSimpleAdmission(teamId, principal.userId(), pageable)
+                        .map(AdmissionDto.SimpleResponse::from))
                 .build();
     }
 

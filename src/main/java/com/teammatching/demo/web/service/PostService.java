@@ -32,8 +32,13 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto.SimpleResponse> getSimplePosts(Pageable pageable) {
-        return postRepository.findAll(pageable).map(PostDto.SimpleResponse::from);
+    public Page<PostDto> getSimplePosts(Pageable pageable) {
+        return postRepository.findAll(pageable).map(PostDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostDto> getSearchPosts(String keyword, Pageable pageable) {
+        return postRepository.searchAllByFields(keyword, pageable).map(PostDto::from);
     }
 
     @Transactional(readOnly = true)
@@ -65,4 +70,6 @@ public class PostService {
         return postRepository.findById(postId)
                 .orElseThrow(NotFoundException.Post::new);
     }
+
+
 }

@@ -1,9 +1,7 @@
 package com.teammatching.demo.web.service;
 
-import com.teammatching.demo.domain.dto.CommentDto;
-import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.TeamDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.*;
+import com.teammatching.demo.domain.entity.Comment;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.*;
 import com.teammatching.demo.result.exception.NotEqualsException;
@@ -13,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @RequiredArgsConstructor
 @Transactional
@@ -42,38 +41,39 @@ public class MyPageService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto.SimpleResponse> getMyPosts(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<PostDto> getMyPosts(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto.SimpleResponse::from);
+            return postRepository.findByUserAccount_UserId(userId, pageable).map(PostDto::from);
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<CommentDto.SimpleResponse> getMyComments(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<CommentWithPostDto> getMyComments(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentDto.SimpleResponse::from);
+            return commentRepository.findByUserAccount_UserId(userId, pageable).map(CommentWithPostDto::from);
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto.SimpleResponse> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<TeamDto> getMyTeams(String userId, String authenticatedUserId, Pageable pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsTrue(userId, pageable)
-                    .map(admission -> TeamDto.SimpleResponse.from(admission.getTeam()));
+            return admissionRepository.findMyTeams(userId, pageable)
+                    .map(admission -> TeamDto.from(admission.getTeam()));
         } else {
             throw new NotEqualsException.UserAccount();
         }
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto.SimpleResponse> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable pageable) {
+    public Page<TeamDto> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable
+            pageable) {
         if (userId.equals(authenticatedUserId)) {
-            return admissionRepository.findAllByUserAccount_UserIdAndApprovalIsFalse(userId, pageable)
-                    .map(admission -> TeamDto.SimpleResponse.from(admission.getTeam()));
+            return admissionRepository.findMyJudgingTeams(userId, pageable)
+                    .map(admission -> TeamDto.from(admission.getTeam()));
         } else {
             throw new NotEqualsException.UserAccount();
         }
