@@ -64,14 +64,14 @@ public record PostDto(
             Integer commentsCount,
             LocalDateTime createdAt
     ) {
-        public static SimpleResponse from(Post entity) {
+        public static SimpleResponse from(PostDto dto) {
             return SimpleResponse.builder()
-                    .id(entity.getId())
-                    .title(entity.getTitle())
-                    .hashtag(entity.getHashtag())
-                    .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
-                    .commentsCount(entity.getComments().size())
-                    .createdAt(entity.getCreatedAt())
+                    .id(dto.id)
+                    .title(dto.title)
+                    .hashtag(dto.hashtag)
+                    .userAccountDto(dto.userAccountDto)
+                    .commentsCount(dto.commentDtos.size())
+                    .createdAt(dto.createdAt)
                     .build();
         }
     }

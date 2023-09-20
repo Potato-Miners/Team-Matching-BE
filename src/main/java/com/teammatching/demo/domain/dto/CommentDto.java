@@ -68,24 +68,4 @@ public record CommentDto(
                     .build();
         }
     }
-
-    @Schema(name = "CommentDto.SimpleResponse(간단 댓글 응답 Dto)")
-    @Builder
-    public record SimpleResponse(
-            Long id,
-            String content,
-            PostDto.SimpleResponse postSimpleDto,
-
-            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-            LocalDateTime createdAt
-    ) {
-        public static SimpleResponse from(Comment entity) {
-            return SimpleResponse.builder()
-                    .id(entity.getId())
-                    .content(entity.getContent())
-                    .postSimpleDto(PostDto.SimpleResponse.from(entity.getPost()))
-                    .build();
-        }
-    }
-
 }

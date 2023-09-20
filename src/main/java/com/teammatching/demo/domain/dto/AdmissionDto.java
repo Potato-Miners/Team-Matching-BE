@@ -48,10 +48,10 @@ public record AdmissionDto(
             Long id,
             UserAccountDto userAccountDto
     ) {
-        public static SimpleResponse from(Admission entity) {
+        public static SimpleResponse from(AdmissionDto dto) {
             return SimpleResponse.builder()
-                    .id(entity.getId())
-                    .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
+                    .id(dto.id)
+                    .userAccountDto(dto.userAccountDto)
                     .build();
         }
     }
