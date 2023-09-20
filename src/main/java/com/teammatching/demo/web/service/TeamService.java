@@ -1,8 +1,11 @@
 package com.teammatching.demo.web.service;
 
+import com.teammatching.demo.domain.dto.AdmissionDto;
 import com.teammatching.demo.domain.dto.TeamDto;
+import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
+import com.teammatching.demo.domain.repository.AdmissionRepository;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.NullCheckException;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 public class TeamService {
 
     private final TeamRepository teamRepository;
+    private final AdmissionRepository admissionRepository;
     private final UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
@@ -34,8 +38,13 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto.SimpleResponse> getSimpleTeams(Pageable pageable) {
-        return teamRepository.findAll(pageable).map(TeamDto.SimpleResponse::from);
+    public Page<TeamDto> getSimpleTeams(Pageable pageable) {
+        return teamRepository.findAll(pageable).map(TeamDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TeamDto> getSearchTeams(String keyword, Pageable pageable) {
+        return teamRepository.searchAllByFields(keyword, pageable).map(TeamDto::from);
     }
 
     public void createTeam(TeamDto request, String userId) {
@@ -44,7 +53,11 @@ public class TeamService {
         if (request.hashtag() == null) throw new NullCheckException("Team.hashtag");
         if (request.capacity() == null) throw new NullCheckException("Team.capacity");
         if (request.total() == null) throw new NullCheckException("Team.total");
-        teamRepository.save(request.toEntity(userAccount));
+        Team team = teamRepository.save(request.toEntity(userAccount));
+        AdmissionDto admission = AdmissionDto.builder()
+                .approval(true)
+                .build();
+        admissionRepository.save(admission.toEntity(userAccount, team));
     }
 
     public TeamDto getTeamById(Long teamId) {
@@ -53,7 +66,7 @@ public class TeamService {
 
     public void updateTeam(Long teamId, TeamDto request, String userId) {
         Team team = findTeamById(teamId);
-        if (request.adminUserAccountDto().userId().equals(userId)) {
+        if (team.getAdminUserAccount().getUserId().equals(userId)) {
             if (request.name() != null) team.setName(request.name());
             if (request.category() != null) team.setCategory(request.category());
             if (request.hashtag() != null) team.setHashtag(request.hashtag());
