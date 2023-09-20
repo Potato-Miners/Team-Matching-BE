@@ -1,6 +1,7 @@
 package com.teammatching.demo.web.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.teammatching.demo.domain.dto.PostDto;
 import com.teammatching.demo.domain.dto.TeamDto;
 import com.teammatching.demo.domain.dto.Principal;
 import com.teammatching.demo.result.ResponseMessage;
@@ -38,7 +39,25 @@ public class TeamController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_TEAMS)
-                .resultData(teamService.getSimpleTeams(pageable))
+                .resultData(teamService.getSimpleTeams(pageable)
+                        .map(TeamDto.SimpleResponse::from))
+                .build();
+    }
+
+    @Operation(
+            summary = "검색어를 포함한 팀 리스트 간단 조회",
+            description = "검색어를 포함한 간단한 팀 정보 리스트를 제공합니다."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/search")
+    public ResponseResult<Page<TeamDto.SimpleResponse>> getSearchTeams(
+            @RequestParam String keyword,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_GET_SIMPLE_POSTS)
+                .resultData(teamService.getSearchTeams(keyword, pageable).map(TeamDto.SimpleResponse::from))
                 .build();
     }
 
