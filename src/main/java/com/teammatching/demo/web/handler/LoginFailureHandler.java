@@ -2,7 +2,6 @@ package com.teammatching.demo.web.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teammatching.demo.result.ResponseResult;
-import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

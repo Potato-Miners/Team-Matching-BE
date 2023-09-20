@@ -1,7 +1,6 @@
 package com.teammatching.demo.web.service;
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.Admission;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

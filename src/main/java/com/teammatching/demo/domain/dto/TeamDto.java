@@ -6,7 +6,6 @@ import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 

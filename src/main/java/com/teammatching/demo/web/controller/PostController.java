@@ -17,9 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
-
 @Tag(name = "게시글 API", description = "게시글 도메인 관련 API")
 @RequiredArgsConstructor
 @RequestMapping("/posts")

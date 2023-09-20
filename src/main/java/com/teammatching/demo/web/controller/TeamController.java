@@ -1,9 +1,8 @@
 package com.teammatching.demo.web.controller;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.TeamDto;
 import com.teammatching.demo.domain.dto.Principal;
+import com.teammatching.demo.domain.dto.TeamDto;
 import com.teammatching.demo.result.ResponseMessage;
 import com.teammatching.demo.result.ResponseResult;
 import com.teammatching.demo.web.service.TeamService;
