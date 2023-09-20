@@ -111,7 +111,8 @@ public class MyPageController {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_POSTS)
-                .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable))
+                .resultData(myPageService.getMyPosts(userId, principal.userId(), pageable)
+                        .map(PostDto.SimpleResponse::from))
                 .build();
     }
 
@@ -120,13 +121,13 @@ public class MyPageController {
             description = "유저가 작성한 댓글 리스트를 제공합니다."
     )
     @GetMapping("/comments")
-    public ResponseResult<Page<CommentDto.SimpleResponse>> getMyComments(
+    public ResponseResult<Page<CommentWithPostDto>> getMyComments(
             @PathVariable("userId") String userId,
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        return ResponseResult.<Page<CommentDto.SimpleResponse>>builder()
+        return ResponseResult.<Page<CommentWithPostDto>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_COMMENTS)
                 .resultData(myPageService.getMyComments(userId, principal.userId(), pageable))
@@ -147,7 +148,8 @@ public class MyPageController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
-                .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable))
+                .resultData(myPageService.getMyTeams(userId, principal.userId(), pageable)
+                        .map(TeamDto.SimpleResponse::from))
                 .build();
     }
 
@@ -165,7 +167,8 @@ public class MyPageController {
         return ResponseResult.<Page<TeamDto.SimpleResponse>>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_MY_TEAMS)
-                .resultData(myPageService.getMyJudgingTeams(userId, principal.userId(), pageable))
+                .resultData(myPageService.getMyJudgingTeams(userId, principal.userId(), pageable)
+                        .map(TeamDto.SimpleResponse::from))
                 .build();
     }
 }
