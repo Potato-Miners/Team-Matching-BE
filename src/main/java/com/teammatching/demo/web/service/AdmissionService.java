@@ -48,10 +48,11 @@ public class AdmissionService {
     }
 
     @Transactional(readOnly = true)
-    public AdmissionDto getAdmissionByUserId(Long teamId, String userId, String adminId) {
+    public AdmissionDto getAdmissionByUserId(Long teamId, Long admissionId, String adminId) {
         Team team = teamRepository.getReferenceById(teamId);
         if (team.getAdminUserAccount().getUserId().equals(adminId)) {
-            return AdmissionDto.from(admissionRepository.findByUserAccount_UserId(userId));
+            return AdmissionDto.from(admissionRepository.findById(admissionId)
+                    .orElseThrow(RuntimeException::new));       //TODO: Exception 구현 필요
         } else {
             throw new NotEqualsException.TeamAdmin();
         }
