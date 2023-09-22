@@ -32,7 +32,6 @@ public class CommentController {
             @RequestBody CommentDto.CreateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
-        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         commentService.createComment(postId, request.toDto(principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())

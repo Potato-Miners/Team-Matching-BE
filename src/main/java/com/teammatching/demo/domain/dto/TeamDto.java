@@ -6,7 +6,6 @@ import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -84,6 +83,8 @@ public record TeamDto(
                     .adminUserAccountDto(dto.adminUserAccountDto)
                     .name(dto.name)
                     .category(dto.category)
+                    .hashtag(dto.hashtag)
+                    .capacity(dto.capacity)
                     .total(dto.total)
                     .deadline(dto.deadline)
                     .createdAt(dto.createdAt)

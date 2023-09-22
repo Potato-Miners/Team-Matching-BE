@@ -1,9 +1,14 @@
 package com.teammatching.demo.web.service;
 
-import com.teammatching.demo.domain.dto.*;
-import com.teammatching.demo.domain.entity.Comment;
+import com.teammatching.demo.domain.dto.CommentWithPostDto;
+import com.teammatching.demo.domain.dto.PostDto;
+import com.teammatching.demo.domain.dto.TeamDto;
+import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.UserAccount;
-import com.teammatching.demo.domain.repository.*;
+import com.teammatching.demo.domain.repository.AdmissionRepository;
+import com.teammatching.demo.domain.repository.CommentRepository;
+import com.teammatching.demo.domain.repository.PostRepository;
+import com.teammatching.demo.domain.repository.UserAccountRepository;
 import com.teammatching.demo.result.exception.NotEqualsException;
 import com.teammatching.demo.result.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;

@@ -51,17 +51,17 @@ public class AdmissionController {
             description = "팀 관리자에게 가입 신청자의 가입 신청 내용을 상세 제공합니다."
     )
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{userId}")
+    @GetMapping("/{admissionId}")
     public ResponseResult<AdmissionDto> getAdmissionByUserId(
             @PathVariable("teamId") Long teamId,
-            @PathVariable("userId") String userId,
+            @PathVariable("admissionId") Long admissionId,
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         return ResponseResult.<AdmissionDto>builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_GET_ADMISSION_BY_USER_ID)
-                .resultData(admissionService.getAdmissionByUserId(teamId, userId, principal.userId()))
+                .resultData(admissionService.getAdmissionByUserId(teamId, admissionId, principal.userId()))
                 .build();
     }
 
@@ -76,7 +76,6 @@ public class AdmissionController {
             @RequestBody AdmissionDto.CreateRequest request,
             @AuthenticationPrincipal Principal principal
     ) {
-        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
         admissionService.applyTeam(request.toDto(teamId, principal.toDto()));
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())

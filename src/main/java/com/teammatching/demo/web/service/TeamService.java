@@ -2,14 +2,13 @@ package com.teammatching.demo.web.service;
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
 import com.teammatching.demo.domain.dto.TeamDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
 import com.teammatching.demo.domain.entity.Team;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.AdmissionRepository;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
-import com.teammatching.demo.result.exception.NullCheckException;
 import com.teammatching.demo.result.exception.NotFoundException;
+import com.teammatching.demo.result.exception.NullCheckException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
