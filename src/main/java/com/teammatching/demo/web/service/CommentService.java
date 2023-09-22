@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -30,7 +29,7 @@ public class CommentService {
     public List<CommentDto> getComments() {
         return commentRepository.findAll().stream()
                 .map(CommentDto::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void createComment(Long postId, CommentDto request) {
