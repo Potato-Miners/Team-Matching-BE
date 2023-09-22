@@ -83,6 +83,8 @@ public record TeamDto(
                     .adminUserAccountDto(dto.adminUserAccountDto)
                     .name(dto.name)
                     .category(dto.category)
+                    .hashtag(dto.hashtag)
+                    .capacity(dto.capacity)
                     .total(dto.total)
                     .deadline(dto.deadline)
                     .createdAt(dto.createdAt)

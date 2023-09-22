@@ -30,6 +30,10 @@ public record AdmissionDto(
                 .approval(entity.getApproval())
                 .teamId(entity.getTeam().getId())
                 .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
+                .createdAt(entity.getCreatedAt())
+                .createdBy(entity.getCreatedBy())
+                .modifiedAt(entity.getModifiedAt())
+                .modifiedBy(entity.getModifiedBy())
                 .build();
     }
 
