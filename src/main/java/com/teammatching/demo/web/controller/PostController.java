@@ -46,9 +46,9 @@ public class PostController {
             description = "검색어를 포함한 간단한 게시글 정보 리스트를 제공합니다."
     )
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{keyword}")
+    @GetMapping("/search")
     public ResponseResult<Page<PostDto.SimpleResponse>> getSearchPosts(
-            @PathVariable("keyword") String keyword,
+            @RequestParam String keyword,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return ResponseResult.<Page<PostDto.SimpleResponse>>builder()
