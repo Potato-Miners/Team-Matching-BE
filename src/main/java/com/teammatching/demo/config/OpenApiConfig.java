@@ -1,7 +1,7 @@
 package com.teammatching.demo.config;
 
 
-import com.teammatching.demo.web.filter.login.CustomJsonUsernamePasswordAuthenticationFilter;
+import com.teammatching.demo.global.security.filter.login.CustomJsonUsernamePasswordAuthenticationFilter;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
