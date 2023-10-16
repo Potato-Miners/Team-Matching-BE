@@ -1,7 +1,7 @@
 package com.teammatching.demo.config;
 
 
-import com.teammatching.demo.web.filter.login.CustomJsonUsernamePasswordAuthenticationFilter;
+import com.teammatching.demo.global.security.filter.login.CustomJsonUsernamePasswordAuthenticationFilter;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -47,7 +47,7 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .title("Team Mon")
-                .version("0.7.6")
+                .version("0.7.7")
                 .description("Team Mon 서비스의 API Docs 입니다.");
         return new OpenAPI()
                 .components(new Components())
