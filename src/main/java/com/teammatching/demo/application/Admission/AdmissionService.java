@@ -1,4 +1,4 @@
-package com.teammatching.demo.web.service;
+package com.teammatching.demo.application.Admission;
 
 import com.teammatching.demo.domain.dto.AdmissionDto;
 import com.teammatching.demo.domain.entity.Admission;
@@ -7,10 +7,10 @@ import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.AdmissionRepository;
 import com.teammatching.demo.domain.repository.TeamRepository;
 import com.teammatching.demo.domain.repository.UserAccountRepository;
-import com.teammatching.demo.result.exception.NotEqualsException;
-import com.teammatching.demo.result.exception.NotFoundException;
-import com.teammatching.demo.result.exception.NullCheckException;
-import com.teammatching.demo.result.exception.TeamJoinException;
+import com.teammatching.demo.global.exception.NotEqualsException;
+import com.teammatching.demo.global.exception.NotFoundException;
+import com.teammatching.demo.global.exception.NullCheckException;
+import com.teammatching.demo.global.exception.TeamJoinException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +40,7 @@ public class AdmissionService {
     public Page<AdmissionDto> getSimpleAdmission(Long teamId, String adminId, Pageable pageable) {
         Team team = teamRepository.getReferenceById(teamId);
         if (team.getAdminUserAccount().getUserId().equals(adminId)) {
-            return admissionRepository.findByTeam_Id(teamId, pageable)
+            return admissionRepository.findByTeam_IdWithoutAdmin(teamId, adminId, pageable)
                     .map(AdmissionDto::from);
         } else {
             throw new NotEqualsException.TeamAdmin();
@@ -73,29 +73,25 @@ public class AdmissionService {
         admissionRepository.save(request.toEntity(userAccount, team));
     }
 
-    public void approvalAdmission(Long teamId, String userId, String adminId) {
-        UserAccount approvalUserAccount = userAccountRepository.getReferenceById(userId);
+    public void approvalAdmission(Long teamId, Long admissionId, String adminId) {
         Team approvalTeam = teamRepository.getReferenceById(teamId);
-        Admission admission = admissionRepository.findByUserAccountAndTeam(approvalUserAccount, approvalTeam)
-                .orElseThrow(NotFoundException.Admission::new);
+        Admission admission = admissionRepository.getReferenceById(admissionId);
         if (approvalTeam.getAdminUserAccount().getUserId().equals(adminId)) {
             if (approvalTeam.getCapacity().equals(approvalTeam.getTotal())) {
                 throw new TeamJoinException.FullCapacity();
             }
             admission.setApproval(true);
+            admissionRepository.deleteById(admission.getId());
             approvalTeam.setTotal(approvalTeam.getTotal() + 1);
         } else {
             throw new NotFoundException.UserAccount();
         }
     }
 
-    public void cancelAdmission(Long teamId, String userId, String adminId) {
-        UserAccount cancelUserAccount = userAccountRepository.getReferenceById(userId);
+    public void cancelAdmission(Long teamId, Long admissionId, String adminId) {
         Team cancelTeam = teamRepository.getReferenceById(teamId);
-        Admission admission = admissionRepository.findByUserAccountAndTeam(cancelUserAccount, cancelTeam)
-                .orElseThrow(NotFoundException.Admission::new);
-        if (cancelTeam.getAdminUserAccount().getUserId().equals(adminId)
-                || userId.equals(adminId)) {
+        Admission admission = admissionRepository.getReferenceById(admissionId);
+        if (cancelTeam.getAdminUserAccount().getUserId().equals(adminId)) {
             admissionRepository.deleteById(admission.getId());
         } else {
             throw new NotFoundException.UserAccount();
