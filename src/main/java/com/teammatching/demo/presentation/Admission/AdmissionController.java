@@ -1,12 +1,12 @@
-package com.teammatching.demo.web.controller;
+package com.teammatching.demo.presentation.Admission;
 
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.teammatching.demo.domain.dto.AdmissionDto;
 import com.teammatching.demo.domain.dto.Principal;
-import com.teammatching.demo.result.ResponseMessage;
-import com.teammatching.demo.result.ResponseResult;
-import com.teammatching.demo.web.service.AdmissionService;
+import com.teammatching.demo.global.customResponse.ResponseMessage;
+import com.teammatching.demo.global.customResponse.ResponseResult;
+import com.teammatching.demo.application.Admission.AdmissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -88,14 +88,14 @@ public class AdmissionController {
             description = "팀 가입 신청을 승인합니다."
     )
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/approval/{userId}")
+    @PostMapping("/approval/{admissionId}")
     public ResponseResult<Object> approvalAdmission(
             @PathVariable("teamId") Long teamId,
-            @PathVariable("userId") String userId,
+            @PathVariable("admissionId") Long admissionId,
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        admissionService.approvalAdmission(teamId, userId, principal.toDto().userId());
+        admissionService.approvalAdmission(teamId, admissionId, principal.toDto().userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_APPROVAL_ADMISSION)
@@ -110,11 +110,11 @@ public class AdmissionController {
     @PostMapping("/reject/{userId}")
     public ResponseResult<Object> cancelAdmission(
             @PathVariable("teamId") Long teamId,
-            @PathVariable("userId") String userId,
+            @PathVariable("admissionId") Long admissionId,
             @AuthenticationPrincipal Principal principal
     ) {
         if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
-        admissionService.cancelAdmission(teamId, userId, principal.toDto().userId());
+        admissionService.cancelAdmission(teamId, admissionId, principal.toDto().userId());
         return ResponseResult.builder()
                 .resultCode(HttpStatus.OK.value())
                 .resultMessage(ResponseMessage.SUCCESS_CANCEL_ADMISSION)
