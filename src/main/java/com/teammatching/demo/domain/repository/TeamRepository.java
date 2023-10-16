@@ -1,5 +1,6 @@
 package com.teammatching.demo.domain.repository;
 
+import com.teammatching.demo.domain.Category;
 import com.teammatching.demo.domain.entity.Team;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
+//    @Query("SELECT t from Team t WHERE t.category = :category")
+//    Page<Team> findTeamsByCategory(@Param("category") Category category, Pageable pageable);
+
+    Page<Team> findByCategory(Category category, Pageable pageable);
 
     @Query("SELECT t from Team t WHERE " +
             "t.adminUserAccount.userId LIKE %:keyword% OR " +
