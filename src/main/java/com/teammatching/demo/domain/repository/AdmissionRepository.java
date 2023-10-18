@@ -13,8 +13,6 @@ import java.util.Optional;
 
 public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
-    Page<Admission> findByTeam_Id(Long teamId, Pageable pageable);
-
     @Query("SELECT a FROM Admission a WHERE a.team.id = :teamId AND a.team.adminUserAccount.userId != :adminId")
     Page<Admission> findByTeam_IdWithoutAdmin(@Param("teamId") Long teamId, @Param("adminId") String adminId, Pageable pageable);
 
