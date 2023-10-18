@@ -52,7 +52,7 @@ public class AdmissionService {
         Team team = teamRepository.getReferenceById(teamId);
         if (team.getAdminUserAccount().getUserId().equals(adminId)) {
             return AdmissionDto.from(admissionRepository.findById(admissionId)
-                    .orElseThrow(RuntimeException::new));       //TODO: Exception 구현 필요
+                    .orElseThrow(NotFoundException.Admission::new));
         } else {
             throw new NotEqualsException.TeamAdmin();
         }
