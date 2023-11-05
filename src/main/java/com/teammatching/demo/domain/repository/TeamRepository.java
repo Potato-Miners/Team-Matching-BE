@@ -10,9 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
-//    @Query("SELECT t from Team t WHERE t.category = :category")
-//    Page<Team> findTeamsByCategory(@Param("category") Category category, Pageable pageable);
-
     Page<Team> findByCategory(Category category, Pageable pageable);
 
     @Query("SELECT t from Team t WHERE " +

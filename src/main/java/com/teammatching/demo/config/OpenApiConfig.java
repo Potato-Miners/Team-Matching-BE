@@ -47,7 +47,7 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .title("Team Mon")
-                .version("0.7.7")
+                .version("0.7.8")
                 .description("Team Mon 서비스의 API Docs 입니다.");
         return new OpenAPI()
                 .components(new Components())

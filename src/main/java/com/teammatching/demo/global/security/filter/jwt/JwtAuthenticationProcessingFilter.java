@@ -109,13 +109,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                             .ifPresent(userId -> userAccountRepository.findById(userId)
                                     .ifPresent(this::saveAuthentication));
                 });
-
-//        jwtService.extractToken(request, accessHeader)
-//                .filter(jwtService::isTokenValid)
-//                .ifPresent(accessToken -> jwtService.extractClaim(accessToken, USERID_CLAIM)
-//                        .ifPresent(userId -> userAccountRepository.findById(userId)
-//                                .ifPresent(this::saveAuthentication)));
-
         filterChain.doFilter(request, response);
     }
 
@@ -143,7 +136,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private void validBlackToken(String accessToken) {
         String blackToken = redisTemplate.opsForValue().get(accessToken);
         if (StringUtils.hasText(blackToken)) {
-            throw new RuntimeException("로그 아웃 처리된 토큰 입니다.");       //TODO: 예외 처리 필요
+            throw new RuntimeException("로그 아웃 처리된 토큰 입니다.");
         }
     }
 }
