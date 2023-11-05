@@ -12,5 +12,4 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, String
     Optional<UserAccount> findByNickname(String nickname);
 
     Optional<UserAccount> findByRefreshToken(String refreshToken);
-
 }
