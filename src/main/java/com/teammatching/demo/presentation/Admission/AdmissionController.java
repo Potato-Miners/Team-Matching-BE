@@ -107,7 +107,7 @@ public class AdmissionController {
             description = "팀 가입 신청을 거절/취소합니다."
     )
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/reject/{userId}")
+    @PostMapping("/reject/{admissionId}")
     public ResponseResult<Object> cancelAdmission(
             @PathVariable("teamId") Long teamId,
             @PathVariable("admissionId") Long admissionId,
