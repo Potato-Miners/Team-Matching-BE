@@ -17,7 +17,7 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     Optional<Admission> findByUserAccountAndTeam(UserAccount userAccount, Team team);
 
-    @Query("SELECT a FROM Admission a WHERE a.userAccount.userId = ?1 AND a.approval != false")
+    @Query("SELECT a FROM Admission a WHERE a.userAccount.userId = ?1 AND a.approval = true")
     Page<Admission> findMyTeams(String userId, Pageable pageable);
 
     @Query("SELECT a FROM Admission a WHERE a.userAccount.userId = ?1 AND a.approval = false")

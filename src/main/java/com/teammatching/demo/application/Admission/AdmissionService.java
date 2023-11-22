@@ -81,7 +81,6 @@ public class AdmissionService {
                 throw new TeamJoinException.FullCapacity();
             }
             admission.setApproval(true);
-            admissionRepository.deleteById(admission.getId());
             approvalTeam.setTotal(approvalTeam.getTotal() + 1);
         } else {
             throw new NotFoundException.UserAccount();
