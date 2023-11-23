@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
-    @Query("SELECT a FROM Admission a WHERE a.team.id = ?1 AND a.userAccount.userId != ?2")
+    @Query("SELECT a FROM Admission a WHERE a.team.id = ?1 AND a.userAccount.userId != ?2 AND a.approval = false")
     Page<Admission> findByTeam_IdWithoutAdmin(Long teamId, String adminId, Pageable pageable);
 
     Optional<Admission> findByUserAccountAndTeam(UserAccount userAccount, Team team);

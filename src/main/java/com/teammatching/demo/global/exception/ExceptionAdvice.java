@@ -154,6 +154,7 @@ public class ExceptionAdvice {
         String resultMessage = e.getMessage();
         if(e instanceof TeamJoinException.AlreadyJoined) resultMessage = "이미 가입된 팀입니다.";
         if(e instanceof TeamJoinException.AlreadyApplying) resultMessage = "이미 가입 신청된 팀입니다.";
+        if(e instanceof TeamJoinException.AlreadyApproved) resultMessage = "이미 승인된 요청입니다.";
         if(e instanceof TeamJoinException.FullCapacity) resultMessage = "더 이상 팀원을 추가할 수 없습니다.";
 
         return ResponseResult.builder()

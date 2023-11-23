@@ -76,15 +76,17 @@ public class AdmissionService {
     public void approvalAdmission(Long teamId, Long admissionId, String adminId) {
         Team approvalTeam = teamRepository.getReferenceById(teamId);
         Admission admission = admissionRepository.getReferenceById(admissionId);
-        if (approvalTeam.getAdminUserAccount().getUserId().equals(adminId)) {
-            if (approvalTeam.getCapacity().equals(approvalTeam.getTotal())) {
-                throw new TeamJoinException.FullCapacity();
-            }
-            admission.setApproval(true);
-            approvalTeam.setTotal(approvalTeam.getTotal() + 1);
-        } else {
+        if (admission.getApproval()) {
+            throw new TeamJoinException.AlreadyApproved();
+        }
+        if(!approvalTeam.getAdminUserAccount().getUserId().equals(adminId)){
             throw new NotFoundException.UserAccount();
         }
+        if(approvalTeam.getCapacity().equals(approvalTeam.getTotal())){
+            throw new TeamJoinException.FullCapacity();
+        }
+        admission.setApproval(true);
+        approvalTeam.setTotal(approvalTeam.getTotal() + 1);
     }
 
     public void cancelAdmission(Long teamId, Long admissionId, String adminId) {

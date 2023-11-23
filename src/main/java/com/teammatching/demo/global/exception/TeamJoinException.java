@@ -9,4 +9,8 @@ public class TeamJoinException extends RuntimeException {
 
     public static class FullCapacity extends TeamJoinException {
     }
+
+    public static class AlreadyApproved extends TeamJoinException {
+
+    }
 }
