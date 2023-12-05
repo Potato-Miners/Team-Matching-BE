@@ -1,9 +1,6 @@
 package com.teammatching.demo.application.MyPage;
 
-import com.teammatching.demo.domain.dto.CommentWithPostDto;
-import com.teammatching.demo.domain.dto.PostDto;
-import com.teammatching.demo.domain.dto.TeamDto;
-import com.teammatching.demo.domain.dto.UserAccountDto;
+import com.teammatching.demo.domain.dto.*;
 import com.teammatching.demo.domain.entity.UserAccount;
 import com.teammatching.demo.domain.repository.AdmissionRepository;
 import com.teammatching.demo.domain.repository.CommentRepository;
@@ -74,14 +71,13 @@ public class MyPageService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TeamDto> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable
+    public Page<AdmissionDto.JudgingTeamResponse> getMyJudgingTeams(String userId, String authenticatedUserId, Pageable
             pageable) {
-        if (userId.equals(authenticatedUserId)) {
-            return admissionRepository.findMyJudgingTeams(userId, pageable)
-                    .map(admission -> TeamDto.from(admission.getTeam()));
-        } else {
+        if(!userId.equals(authenticatedUserId)){
             throw new NotEqualsException.UserAccount();
         }
+        return admissionRepository.findMyJudgingTeams(userId, pageable)
+                .map(admission -> AdmissionDto.JudgingTeamResponse.from(AdmissionDto.from(admission), TeamDto.from(admission.getTeam())));
     }
 
     private UserAccount findUserAccountById(String userId) {

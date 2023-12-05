@@ -60,6 +60,20 @@ public record AdmissionDto(
         }
     }
 
+    @Schema(name = "AdmissionDto.JudgingTeamResponse(가입 신청 진행 중인 팀 요청 Dto)")
+    @Builder
+    public record JudgingTeamResponse(
+            Long id,
+            TeamDto.SimpleResponse teamSimpleResponse
+    ) {
+        public static JudgingTeamResponse from(AdmissionDto admissionDto, TeamDto teamDto) {
+            return JudgingTeamResponse.builder()
+                    .id(admissionDto.id)
+                    .teamSimpleResponse(TeamDto.SimpleResponse.from(teamDto))
+                    .build();
+        }
+    }
+
     @Schema(name = "AdmissionDto.CreateRequest(가입 신청 생성 요청 Dto)")
     public record CreateRequest(
             String application
