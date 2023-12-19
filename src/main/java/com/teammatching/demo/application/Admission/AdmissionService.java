@@ -14,6 +14,7 @@ import com.teammatching.demo.global.exception.TeamJoinException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,10 +90,19 @@ public class AdmissionService {
         approvalTeam.setTotal(approvalTeam.getTotal() + 1);
     }
 
-    public void cancelAdmission(Long teamId, Long admissionId, String adminId) {
+    public void rejectAdmission(Long teamId, Long admissionId, String adminId) {
         Team cancelTeam = teamRepository.getReferenceById(teamId);
         Admission admission = admissionRepository.getReferenceById(admissionId);
         if (cancelTeam.getAdminUserAccount().getUserId().equals(adminId)) {
+            admissionRepository.deleteById(admission.getId());
+        } else {
+            throw new NotFoundException.UserAccount();
+        }
+    }
+
+    public void cancelAdmission(Long teamId, Long admissionId, String userId){
+        Admission admission = admissionRepository.getReferenceById(admissionId);
+        if (admission.getUserAccount().getUserId().equals(userId)) {
             admissionRepository.deleteById(admission.getId());
         } else {
             throw new NotFoundException.UserAccount();

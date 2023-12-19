@@ -103,11 +103,30 @@ public class AdmissionController {
     }
 
     @Operation(
-            summary = "팀 가입 거절/취소",
-            description = "팀 가입 신청을 거절/취소합니다."
+            summary = "팀 가입 거절",
+            description = "팀 가입 신청을 거절합니다."
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/reject/{admissionId}")
+    public ResponseResult<Object> rejectAdmission(
+            @PathVariable("teamId") Long teamId,
+            @PathVariable("admissionId") Long admissionId,
+            @AuthenticationPrincipal Principal principal
+    ) {
+        if (principal == null) throw new JWTVerificationException("인증 정보가 없습니다.");
+        admissionService.rejectAdmission(teamId, admissionId, principal.toDto().userId());
+        return ResponseResult.builder()
+                .resultCode(HttpStatus.OK.value())
+                .resultMessage(ResponseMessage.SUCCESS_CANCEL_ADMISSION)
+                .build();
+    }
+
+    @Operation(
+            summary = "팀 가입 취소",
+            description = "팀 가입 신청을 취소합니다."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/cancel/{admissionId}")
     public ResponseResult<Object> cancelAdmission(
             @PathVariable("teamId") Long teamId,
             @PathVariable("admissionId") Long admissionId,
